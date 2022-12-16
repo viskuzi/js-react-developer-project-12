@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@fastify/static": "^6.6.0",
     "@hexlet/chat-server": "^1.1.6"
   },
   "scripts": {
