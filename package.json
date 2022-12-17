@@ -5,5 +5,19 @@
   },
   "scripts": {
     "start": "npx start-server -s ./frontend/build"
-  }
+  },
+  "name": "@hexlet/code",
+  "description": "[![Actions Status](https://github.com/viskuzi/js-react-developer-project-12/workflows/hexlet-check/badge.svg)](https://github.com/viskuzi/js-react-developer-project-12/actions)",
+  "version": "1.0.0",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viskuzi/js-react-developer-project-12.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/viskuzi/js-react-developer-project-12/issues"
+  },
+  "homepage": "https://github.com/viskuzi/js-react-developer-project-12#readme"
 }
