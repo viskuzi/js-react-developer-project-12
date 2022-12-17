@@ -1,4 +1,5 @@
 {
+  "proxy": "http://localhost:5001",
   "main": "index.js",
   "dependencies": {
     "@hexlet/chat-server": "^1.1.6"
