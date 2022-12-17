@@ -5,7 +5,9 @@
     "@hexlet/chat-server": "^1.1.6"
   },
   "scripts": {
-    "start": "npx start-server -s ./frontend/build"
+    "start": "npx start-server -s ./frontend/build",
+    "postinstall": "cd frontend && npm ci",
+    "build": "npm run build --prefix frontend"
   },
   "name": "@hexlet/code",
   "description": "[![Actions Status](https://github.com/viskuzi/js-react-developer-project-12/workflows/hexlet-check/badge.svg)](https://github.com/viskuzi/js-react-developer-project-12/actions)",
