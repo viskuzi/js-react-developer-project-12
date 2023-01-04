@@ -3,27 +3,28 @@ import { Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Homepage';
 import { Error } from './pages/Errorpage';
 import { Login } from './pages/LoginPage';
-import AuthContext from './contexts/index.jsx';
+import { MyAuthContext } from './contexts/index.jsx';
 import { useState } from 'react';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
-
-  const logIn = () => setLoggedIn(true);
+  const logIn = () => {
+    setLoggedIn(true);
+    console.log('loggedIn!!!!!!!')
+  };
   const logOut = () => {
     localStorage.removeItem('userId');
     setLoggedIn(false);
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <MyAuthContext.Provider value={{ loggedIn, logIn, logOut }}>
       {children}
-    </AuthContext.Provider>
+    </MyAuthContext.Provider>
   );
 };
 
 function App() {
-
   return (
     <div>
       <AuthProvider>

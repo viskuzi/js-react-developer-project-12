@@ -3,27 +3,35 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
 import axios from 'axios';
 import { routes } from '../routes.js'
+import { useContext } from 'react';
+import { MyAuthContext } from '../contexts/index.jsx';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export const Login = () => {
+  const stateContext = useContext(MyAuthContext);
+  const navigate = useNavigate();
+
+  const [err, setErr] = useState(false);
+
   const validationSchema = object({
-    email: string().required(),
+    username: string().required(),
     password: string().required(),
   });
   
   const onFormSubmit = async (data) => {
     try {
-      const response = await axios.post(routes.loginPath(), data);
+      const response = await axios.post(routes.loginPath(), data); //api/v1/
       console.log('response.data', response.data)
-      // const userId = { token: response.data.token };
-      // if (userId) {
-      //   setErr(false);
-      //   window.localStorage.setItem('userId', JSON.stringify(userId));
-      //   stateContext.logIn();
-      //   navigate(location.state.from.pathname || '/');
-      // }
+      const userId = { token: response.data.token };
+      if (userId) {
+        setErr('');
+        window.localStorage.setItem('userId', JSON.stringify(userId));
+        stateContext.logIn();
+        navigate('/');
+      }
     } catch (error) {
-      console.log("errorrrr", error)
-      // error && setErr(true);
+      setErr(error.message);
     }
   };
   
@@ -31,19 +39,16 @@ export const Login = () => {
     <div>
       <h1>Войти</h1>
       <Formik
-        initialValues={{ email: '', password: '' }}
+        initialValues={{ username: '', password: '' }}
         validate={values => {
           const errors = {};
           if (!values.password) {
             errors.password = 'Обязательное поле';
           } 
-          if (!values.email) {
-            errors.email = 'Обязательное поле';
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-           && values.email !== 'admin') {
-            errors.email = 'Invalid email address';
+          if (!values.username) {
+            errors.username = 'Обязательное поле';
           }
+
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
@@ -56,10 +61,11 @@ export const Login = () => {
       >
         {({ isSubmitting }) => (
           <Form className='form'>
-            <Field className="form-item" name="email" placeholder="email" />
-            <ErrorMessage name="email" component="div" />
+            <Field className="form-item" name="username" placeholder="username" />
+            <ErrorMessage name="username" component="div" />
             <Field className="form-item" type="password" name="password" placeholder="password" />
             <ErrorMessage name="password" component="div" />
+            {err && <div onClick={() => setErr('')}style={{color: "red"}}>{err}</div>}
             <button className="but" type="submit" disabled={isSubmitting}>
               Войти
             </button>
