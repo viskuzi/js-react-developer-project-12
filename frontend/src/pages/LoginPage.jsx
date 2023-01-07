@@ -21,8 +21,7 @@ export const Login = () => {
   
   const onFormSubmit = async (data) => {
     try {
-      const response = await axios.post(routes.loginPath(), data); //api/v1/
-      console.log('response.data', response.data)
+      const response = await axios.post(routes.loginPath(), data);
       const userId = { token: response.data.token };
       if (userId) {
         setErr('');
@@ -60,13 +59,13 @@ export const Login = () => {
         validationSchema={validationSchema}
       >
         {({ isSubmitting }) => (
-          <Form className='form'>
-            <Field className="form-item" name="username" placeholder="username" />
+          <Form>
+            <Field  name="username" placeholder="username" />
             <ErrorMessage name="username" component="div" />
-            <Field className="form-item" type="password" name="password" placeholder="password" />
+            <Field  type="password" name="password" placeholder="password" />
             <ErrorMessage name="password" component="div" />
             {err && <div onClick={() => setErr('')}style={{color: "red"}}>{err}</div>}
-            <button className="but" type="submit" disabled={isSubmitting}>
+            <button type="submit" disabled={isSubmitting}>
               Войти
             </button>
           </Form>

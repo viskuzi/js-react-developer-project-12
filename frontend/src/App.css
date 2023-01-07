@@ -1,7 +1,6 @@
 html {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: rgb(167, 207, 247);
+  background-color: ;
 }
 
 @keyframes App-logo-spin {
@@ -12,19 +11,92 @@ html {
     transform: rotate(360deg);
   }
 }
-.form {
+.nav {
+  display: flex;
+  width: 100vw;
+  height: 5vh;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: aliceblue;
+
+}
+
+.container {
+  margin: 15px 15vw;
+  display:flex;
+  flex-wrap:wrap ;
+  justify-content: flex-start;
+  height: 90vh;
+}
+
+.channels {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  margin-top: 40px;
-  width: 15vw;
+  border-style: ridge;
+  background-color: rgb(238, 238, 238);
+  padding: 20px;
+  
 }
 
-.form-item {
-  height: 2vw;
+.message-container {
+  flex-grow: 8;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 100%;
+  background-color: white;
 }
 
-button {
-  margin-top: 40px;
-  height: 2vw;
+.info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  padding-left: 20px;
+  justify-content: center;
+  align-items: left;
+  background-color: rgb(238, 238, 238);
+  border-style: ridge;
 }
+
+.info-channel {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.message-box {
+  flex-grow: 18;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 20px 40px;
+}
+
+.form-control {
+  flex-grow: 9;
+  height: 40px;
+}
+
+.form-button {
+  flex-grow: 1;
+}
+
+.but {
+  background-color: rgb(240, 239, 194);
+}
+
+.chanels-add {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+
 
