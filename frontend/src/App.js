@@ -1,8 +1,8 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import { Home } from './pages/Homepage';
-import { Error } from './pages/Errorpage';
-import { Login } from './pages/LoginPage';
+import { Home } from './pages/homePage/HomePage';
+import { Error } from './pages/errorPage/ErrorPage';
+import { Login } from './pages/loginPage/LoginPage';
 import { MyAuthContext } from './contexts/index.jsx';
 import { useState } from 'react';
 
