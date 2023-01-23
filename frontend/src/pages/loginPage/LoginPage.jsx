@@ -75,12 +75,20 @@ export const Login = () => {
                 <Form className={style.form}>
                   <h1>Войти</h1>
                   <div className={style.inputBlock}>
-                    <Field className={style.input} name="username" placeholder="Ваш ник" />
-                    <ErrorMessage name="username" component="div" />
+                    <label htmlFor="username" className={style.inp}>
+                      <Field className={style.input} name="username" id="username" placeholder="&nbsp;" />
+                      <span className={style.label}>Ваш ник</span>
+                      <span className={style.focus_bg}></span>
+                    </label>
+                    {/* <ErrorMessage name="username" component="div" /> */}
                   </div>
                   <div className={style.inputBlock} style={{marginBottom: "1.5REM"}}>
-                    <Field className={style.input} type="password" name="password" placeholder="Пароль" />
-                    <ErrorMessage name="password" component="div" />
+                    <label htmlFor="password" className={style.inp}>
+                      <Field className={style.input} type="password" name="password" id="password" placeholder="&nbsp;" />
+                      <span className={style.label}>Пароль</span>
+                      <span className={style.focus_bg}></span>
+                      {/* <ErrorMessage name="password" component="div" /> */}
+                    </label>
                   </div>
                     {err && <div onClick={() => setErr('')}style={{color: "red"}}>{err}</div>}
                   <Button className={style.formBtn} type="submit" disabled={isSubmitting}>Войти</Button>

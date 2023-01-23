@@ -1,3 +1,5 @@
+@import '../../common/styles/sass/variables.scss';
+
 .homeBlock {
     background-color: #f8f9fa;
     height: 100vh;
@@ -90,7 +92,6 @@
                 }
                 .form {
                     width: 50%;
-                    // background-color: bisque;
                     margin-top: 1rem;
                     padding-left: 12px;
                     padding-right: 12px;
@@ -101,7 +102,6 @@
                         text-align: center;
                         margin-bottom: 1.5rem;
                         font-size: 2.5rem;
-                        
                         font-weight: 500;
                         line-height: 1.2;
                         margin-top: 0;
@@ -111,23 +111,74 @@
                             font-size: calc(1.375rem + 1.5vw);
                         }
                     }
-                    .inputBlock {
+                    .inputBlock{
                         width: 100%;
-                        position: relative;
                         padding: 1rem 0.75rem;
                         height: calc(3.5rem + 2px);
                         line-height: 1.25;
-                        background-clip: padding-box;
                         background-color: #fff;
                         border: 1px solid #ced4da;
                         border-radius: 0.25rem;
                         margin-bottom: 1rem;
-                        .input {
-                            width: 100%;
+                        color: #212529;
+                        position: relative;
+                        .inp {
+                            position: absolute;
                             height: 100%;
-                            border: 1px solid transparent;
-                            font-size: 16px;
-                            font-family: inherit;
+                            top: 0px;
+                            left: 0;
+                            margin: auto;
+                            width: 100%;
+                            border-radius: 0.25rem;
+                            overflow: hidden;
+                            .label {
+                              position: absolute;
+                              top: 20px;
+                              left: 12px;
+                              font-family: system-ui,-apple-system,"Segoe UI", sans-serif;
+                              font-size: 1rem;
+                              color: $dark;
+                              transform-origin: 0 0;
+                              transform: translate3d(0,0,0);
+                              transition: all .2s ease;
+                              pointer-events: none;
+                            }
+                            .input {
+                                width: 100%;
+                                border: 0;
+                                font-family: inherit;
+                                padding: 16px 12px 0 12px;
+                                height: 100%;
+                                font-size: 16px;
+                                font-weight: 400;
+                                background: #fff;
+                                color: $dark;
+                                transition: all .15s ease;
+                                border: 4px solid transparent;
+                                &:hover {
+                                    background: rgba($dark,.04);
+                                    // box-shadow: inset 0 -1px 0 rgba($dark,.5);
+                                }
+                                &:not(:placeholder-shown) {
+                                    + .label {
+                                    color: rgba($dark,.5);
+                                    transform: translate3d(0,-12px,0) scale(.85);
+                                    }
+                                }
+                                &:focus {
+                                    outline: none;
+                                    background: #fff;
+                                    border: rgba(#0da4f07a, 0.4) solid 4px;
+                                    + .label {
+                                        color: rgba($dark, 0.6);
+                                        transform: translate3d(0,-12px,0) scale(.85);
+                                        + .focus_bg {
+                                            transform: scaleX(1);
+                                            transition: all .1s ease;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     .formBtn {
