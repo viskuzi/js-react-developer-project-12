@@ -4,16 +4,16 @@ import { object, string } from 'yup';
 import axios from 'axios';
 import { routes } from '../../routes.js'
 import { useContext } from 'react';
-import { MyAuthContext } from '../../contexts/index.jsx';
+import { MyContext } from '../../contexts/context.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image'
 import style from './LoginPage.module.scss';
-import loginImg from '../../assets/images/login-image.jpg'
+import loginImg from '../../assets/images/login-image.jpg';
 
 export const Login = () => {
-  const stateContext = useContext(MyAuthContext);
+  const stateContext = useContext(MyContext);
   const navigate = useNavigate();
 
   const [err, setErr] = useState(false);
@@ -39,7 +39,7 @@ export const Login = () => {
   };
   
   return (
-    <div className={style.homeBlock}>
+    <div className={style.loginBlock}>
       <nav className={style.nav}>
         <div className={style.navContainer}>
           <a>Hexlet Chat</a>

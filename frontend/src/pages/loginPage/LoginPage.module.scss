@@ -1,6 +1,6 @@
 @import '../../common/styles/sass/variables.scss';
 
-.homeBlock {
+.loginBlock {
     background-color: #f8f9fa;
     height: 100vh;
     display: flex;
@@ -62,7 +62,7 @@
             align-items: center;
             .formBlock {
                 width: 66.6%;
-                max-width: 800px;
+                max-width: 900px;
                 background-color: #fff;
                 border: 1px solid rgba(0,0,0,.125);
                 border-radius: 0.25rem;
@@ -87,7 +87,6 @@
                     }
                     .loginImg {
                         border-radius: 50%;
-
                     }
                 }
                 .form {
@@ -205,7 +204,7 @@
             }
             .footer {
                 width: 66.6%;
-                max-width: 800px;
+                max-width: 900px;
                 background-color: rgba(0,0,0,.03);
                 border: 1px solid rgba(0,0,0,.125);
                 border-radius: 0.25rem;

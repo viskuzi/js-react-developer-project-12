@@ -47,35 +47,40 @@ export const Home = () => {
   }, [dispatch, navigate]);
   
   return (
-    <div className='main'>
-      <nav className='nav'>
-        <a style={{fontSize: "18px"}}>Hexlet Chat</a>
-        <Button onClick={onExitButton} variant="primary">Выйти</Button>
-      </nav>
-      <div className='container'>
-        <div className='channels'>
-          <div className='chanels-add'><span><b>Каналы</b></span><Button>+</Button></div>
-          {channels.map((channel) => {
-            if (channel.id === currentChannelId) {
-              return <div style={{marginTop: "8px", backgroundColor: "darkgrey", padding: "6px"}} key={channel.id}>#{channel.name}</div>
-            }
-            return <div style={{marginTop: "8px", padding: "6px"}} key={channel.id}>#{channel.name}</div>
-          })}
+    <div className={style.homeBlock}>
+      <nav className={style.nav}>
+        <div className={style.navContainer}>
+          <a>Hexlet Chat</a>
+          <Button className={style.navBtn}onClick={onExitButton} variant="primary">Выйти</Button>
         </div>
-        <div className='message-container'>
-          <div className='info'>
+      </nav>
+      <div className={style.container}>
+        <div className={style.channelsBlock}>
+          <div className={style.channelsAdd}>
+            <span>Каналы</span>
+            <Button>+</Button>
+          </div>
+          <ul>{channels.map((channel) => {
+            if (channel.id === currentChannelId) {
+              return <li key={channel.id}><button className={style.channelBtn}>#{channel.name}</button></li>
+            }
+            return <li key={channel.id}><button className={style.channelActiveBtn}>#{channel.name}</button></li>
+          })}</ul>
+        </div>
+        <div className={style.messageBlock}>
+          <div className={style.info}>
             {channels.filter((channel) => channel.id === currentChannelId)
-              .map((channel) => <div key={channel.id} className='info-channel'># {channel.name}</div>)}
+              .map((channel) => <div key={channel.id}><span><b># {channel.name}</b></span></div>)}
             <div>{messages.length} сообщений</div>
           </div>
-          <div className='message-box'></div>
-            <Form className='form'>
-              <div className='form-box'>
-                <Form.Control placeholder="Введите сообщение..." onChange={formik.handleChange} name="message" autoComplete="message" required id="message" />
-                <Button className='form-button'><ArrowRight /></Button>
+          <div className={style.messageBox}></div>
+          <Form className={style.formBlock}>
+              <div className={style.form}>
+                <Form.Control className={style.formInput} placeholder="Введите сообщение..." onChange={formik.handleChange} name="message" autoComplete="message" required id="message" />
+                <Button className={style.formBtn}><ArrowRight /></Button>
               </div>
-            </Form>
-        </div>
+          </Form>
+      </div>
       </div>
     </div>
   );

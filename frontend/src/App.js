@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Home } from './pages/homePage/HomePage';
 import { Error } from './pages/errorPage/ErrorPage';
 import { Login } from './pages/loginPage/LoginPage';
-import { MyAuthContext } from './contexts/index.jsx';
+import { MyContext } from './contexts/context.jsx';
 import { useState } from 'react';
 
 const AuthProvider = ({ children }) => {
@@ -18,9 +18,9 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <MyAuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <MyContext.Provider value={{ loggedIn, logIn, logOut }}>
       {children}
-    </MyAuthContext.Provider>
+    </MyContext.Provider>
   );
 };
 
