@@ -11,16 +11,19 @@ const channelsSlice = createSlice({
   initialState,
   reducers: {
     setChannels: (state, { payload }) => {
-      state.channels = payload.channels;
+      state.channels.push(...payload);
     },
     setMessages: (state, { payload }) => {
-      state.messages = payload.messages;
+      state.messages = [...state.messages, ...payload.messages ];
     },
     setCurrentChannelId: (state, { payload }) => {
-      state.currentChannelId = payload.currentChannelId;
+      state.currentChannelId = payload;
+    },
+    setStateClean: (state) => {
+      return state = {...initialState};
     }
   }
 });
 
-export const { setChannels, setMessages, setCurrentChannelId } = channelsSlice.actions;
+export const { setChannels, setMessages, setCurrentChannelId, setStateClean } = channelsSlice.actions;
 export const channelsReducer = channelsSlice.reducer;

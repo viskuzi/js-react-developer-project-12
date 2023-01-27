@@ -7,30 +7,29 @@ import { useContext } from 'react';
 import { MyContext } from '../../contexts/context.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Button } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image'
 import style from './LoginPage.module.scss';
 import loginImg from '../../assets/images/login-image.jpg';
 
 export const Login = () => {
-  const stateContext = useContext(MyContext);
+  const { logIn } = useContext(MyContext);
   const navigate = useNavigate();
-
   const [err, setErr] = useState(false);
 
   const validationSchema = object({
-    username: string().required(),
-    password: string().required(),
+    username: string().required('обязательное поле'),
+    password: string().required('обязательное поле'),
   });
   
   const onFormSubmit = async (data) => {
     try {
+      console.log('data', data)
       const response = await axios.post(routes.loginPath(), data);
       const userId = { token: response.data.token };
-      if (userId) {
+      if (userId && userId.token) { //here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         setErr('');
         window.localStorage.setItem('userId', JSON.stringify(userId));
-        stateContext.logIn();
+        logIn();
         navigate('/');
       }
     } catch (error) {
@@ -53,47 +52,35 @@ export const Login = () => {
             </div>
             <Formik
                 initialValues={{ username: '', password: '' }}
-                validate={values => {
-                  const errors = {};
-                  if (!values.password) {
-                    errors.password = 'Обязательное поле';
-                  } 
-                  if (!values.username) {
-                    errors.username = 'Обязательное поле';
-                  }
-                    return errors;
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                  onFormSubmit(values);
-                  setTimeout(() => {
-                    setSubmitting(false);
-                  }, 400);
-                }}
                 validationSchema={validationSchema}
-                >
-                  {({ isSubmitting }) => (  
+                onSubmit={(values) => {
+                  onFormSubmit(values);
+                }}
+              >
                 <Form className={style.form}>
                   <h1>Войти</h1>
+
                   <div className={style.inputBlock}>
                     <label htmlFor="username" className={style.inp}>
-                      <Field className={style.input} name="username" id="username" placeholder="&nbsp;" />
+                      <ErrorMessage style={{color: "red"}} name="username" component="div" />
+                      <Field className={style.input} name="username" id="username" placeholder="&nbsp;"  />
                       <span className={style.label}>Ваш ник</span>
                       <span className={style.focus_bg}></span>
                     </label>
-                    {/* <ErrorMessage name="username" component="div" /> */}
                   </div>
-                  <div className={style.inputBlock} style={{marginBottom: "1.5REM"}}>
+
+                  <div className={style.inputBlock}>
                     <label htmlFor="password" className={style.inp}>
-                      <Field className={style.input} type="password" name="password" id="password" placeholder="&nbsp;" />
+                      <ErrorMessage style={{color: "red"}} name="password" component="div" />
+                      <Field className={style.input} type="password" name="password" id="password"  placeholder="&nbsp;" />
                       <span className={style.label}>Пароль</span>
                       <span className={style.focus_bg}></span>
-                      {/* <ErrorMessage name="password" component="div" /> */}
                     </label>
                   </div>
-                    {err && <div onClick={() => setErr('')}style={{color: "red"}}>{err}</div>}
-                  <Button className={style.formBtn} type="submit" disabled={isSubmitting}>Войти</Button>
+
+                  {err && <div onClick={() => setErr('')} style={{color: "red"}}>{err}</div>}
+                  <button className={style.formBtn} type="submit">Войти</button>
                 </Form>
-                )}
               </Formik>
           </div>
           <div className={style.footer}>

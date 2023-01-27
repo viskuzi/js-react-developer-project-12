@@ -1,0 +1,24 @@
+.modalBlock {
+    width: 100vw;
+    height: 100vh;
+    .fade {
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        background: rgba(0, 0, 0, 0.4);
+    }
+    .modal {
+        height: 240px;
+        width: 360px;
+        padding: 20px;
+        position: absolute;
+        background: #FFFFFF;
+        box-sizing: border-box;
+        font-weight: bold;
+        left: calc(50% - 180px);
+        top: calc(50% - 120px);
+        // z-index: 100;
+    }
+}
