@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { routes } from '../../routes';
 import { setChannels, setCurrentChannelId, setMessages, setStateClean } from '../../slices/channelsSlice.js';
-import { ArrowRight } from 'react-bootstrap-icons';
+import { ArrowRight, ArrowDown } from 'react-bootstrap-icons';
 import style from './HomePage.module.scss';
 import { useContext } from 'react';
 import { MyContext } from '../../contexts/context';
 import { Formik, Form, Field } from 'formik';
-import _, { replace } from 'lodash';
+import _ from 'lodash';
 import Add from '../../modals/addChannel/AddChannel';
-
-
-
+import { MyDrop } from '../../components/myDrop/MyDrop';
+import { MyDropActive } from '../../components/myDropActive/MyDropActive'
 
 export const Home = () => {
-  const [shownAdd, setShownAdd] = useState(false);
+  // const [ shownDrop, setShownDrop ] = useState(false);
+  // const [ shownDropActive, setShownDropActive ] = useState(false);
+  const [ shownAdd, setShownAdd ] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const state = useSelector(state => state.channelsReducer)
   const { channels, messages, currentChannelId } = state;
   const { logOut } = useContext(MyContext);
-  const location = useLocation();
-
-  
 
   const getAuthHeader = () => {
     const userId = JSON.parse(localStorage.getItem('userId'));
@@ -37,7 +35,7 @@ export const Home = () => {
   const onExitButton = () => {
     dispatch(setStateClean())
     logOut();
-    navigate('/login', { state: null, replace });
+    navigate('/login');
   };
 
   const changeChannel = (id) => {
@@ -54,7 +52,7 @@ export const Home = () => {
     }
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   const userId = JSON.parse(localStorage.getItem('userId'));
   if (!userId) {
@@ -77,13 +75,22 @@ export const Home = () => {
             <span>Каналы</span>
             <button onClick={() => setShownAdd(true)}>+</button>
             <Add isShown={shownAdd} setShown={setShownAdd} />
-            {/* <Add isShown={shownAdd} setShown={setShownAdd} setNotes={setNotes} notes={notes} /> */}
           </div>
           <ul>{channels.map((channel) => {
             if (channel.id === currentChannelId) {
-              return <li key={`${channel.id}${channel.name}`}><button className={style.channelActiveBtn}>#{channel.name}</button></li>
+              return (
+                <li className={style.channelActive}  key={`${channel.id}${channel.name}`}>
+                  <button className={style.channelActiveBtn}>#{channel.name}</button>
+                  <MyDropActive isRemovable={channel.removable} />
+                </li>
+              )
             }
-            return <li key={`${channel.id}${channel.name}`}><button onClick={() => changeChannel(channel.id)} className={style.channelBtn}>#{channel.name}</button></li>
+            return (
+              <li className={style.channelNotActive} key={`${channel.id}${channel.name}`}>
+                <button onClick={() => changeChannel(channel.id)} className={style.channelBtn}>#{channel.name}</button>
+                <MyDrop isRemovable={channel.removable}/>
+              </li>
+              )
           })}</ul>
         </div>
         <div className={style.messageBlock}>
@@ -96,13 +103,11 @@ export const Home = () => {
           <Formik
             initialValues={{ message: ''}}
             onSubmit={(values, { resetForm }) => {
-              console.log('values', values)
               resetForm();
             }}
           >
             <Form  className={style.formBlock}>
               <div className={style.form}>
-                {/* <label htmlFor="message" /> */}
                 <Field className={style.formInput}
                   name="message"
                   placeholder="Введите сообщение..." 
