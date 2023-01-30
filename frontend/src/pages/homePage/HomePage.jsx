@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { routes } from '../../routes';
 import { setChannels, setCurrentChannelId, setMessages, setStateClean } from '../../slices/channelsSlice.js';
-import { ArrowRight, ArrowDown } from 'react-bootstrap-icons';
+import { ArrowRight } from 'react-bootstrap-icons';
 import style from './HomePage.module.scss';
 import { useContext } from 'react';
 import { MyContext } from '../../contexts/context';
@@ -15,8 +15,7 @@ import { MyDrop } from '../../components/myDrop/MyDrop';
 import { MyDropActive } from '../../components/myDropActive/MyDropActive'
 
 export const Home = () => {
-  // const [ shownDrop, setShownDrop ] = useState(false);
-  // const [ shownDropActive, setShownDropActive ] = useState(false);
+  // const [ isActive, setActive ] = useState(false);
   const [ shownAdd, setShownAdd ] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,11 +43,10 @@ export const Home = () => {
   
   useEffect(() => {
     const fetchData = async () => {
-
-    const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
-    dispatch(setChannels(data.channels));
-    dispatch(setMessages(data));
-    dispatch(setCurrentChannelId(data.currentChannelId));
+      const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
+      dispatch(setChannels(data.channels));
+      dispatch(setMessages(data));
+      dispatch(setCurrentChannelId(data.currentChannelId));
     }
 
     fetchData();
@@ -56,7 +54,6 @@ export const Home = () => {
 
   const userId = JSON.parse(localStorage.getItem('userId'));
   if (!userId) {
-    
     dispatch(setStateClean());
     navigate('/login');
   }
@@ -73,25 +70,19 @@ export const Home = () => {
         <div className={style.channelsBlock}>
           <div className={style.channelsAdd}>
             <span>Каналы</span>
-            <button onClick={() => setShownAdd(true)}>+</button>
+            <button className={style.addChannelBtn} onClick={() => setShownAdd(true)}>+</button>
             <Add isShown={shownAdd} setShown={setShownAdd} />
           </div>
           <ul>{channels.map((channel) => {
-            if (channel.id === currentChannelId) {
+            
               return (
-                <li className={style.channelActive}  key={`${channel.id}${channel.name}`}>
-                  <button className={style.channelActiveBtn}>#{channel.name}</button>
-                  <MyDropActive isRemovable={channel.removable} />
+                <li className={channel.id === currentChannelId ? style.channelActive : style.channelNotActive}  key={`${channel.id}${channel.name}`}>
+                  <button onClick={() => changeChannel(channel.id)} className={channel.id === currentChannelId ? style.channelActiveBtn :style.channelBtn }>#{channel.name}</button>
+                  <MyDrop isActive={channel.id === currentChannelId} isRemovable={channel.removable} id={channel.id} />
                 </li>
               )
-            }
-            return (
-              <li className={style.channelNotActive} key={`${channel.id}${channel.name}`}>
-                <button onClick={() => changeChannel(channel.id)} className={style.channelBtn}>#{channel.name}</button>
-                <MyDrop isRemovable={channel.removable}/>
-              </li>
-              )
-          })}</ul>
+            })}
+            </ul>
         </div>
         <div className={style.messageBlock}>
           <div className={style.info}>

@@ -11,7 +11,7 @@ const channelsSlice = createSlice({
   initialState,
   reducers: {
     setChannels: (state, { payload }) => {
-      state.channels.push(...payload);
+      state.channels = payload;
     },
     setMessages: (state, { payload }) => {
       state.messages = [...state.messages, ...payload.messages ];
@@ -21,9 +21,22 @@ const channelsSlice = createSlice({
     },
     setStateClean: (state) => {
       return state = {...initialState};
+    },
+    setRemove: (state, {payload}) => {
+      return state = {...initialState};
+    },
+    setAddChannel: (state, { payload }) => {
+      state.channels.push(payload)
+    },
+    setRenameChannel: (state, { payload } ) => {
+      const index = state.channels.findIndex((channel) => channel.id === payload.id)
+      console.log('index', index);
+      if (index > -1) {
+        state.channels[index] = { ...state.channels[index], name: payload.text  }
+      }
     }
   }
 });
 
-export const { setChannels, setMessages, setCurrentChannelId, setStateClean } = channelsSlice.actions;
+export const { setChannels, setMessages, setCurrentChannelId, setStateClean, setRemove, setAddChannel, setRenameChannel } = channelsSlice.actions;
 export const channelsReducer = channelsSlice.reducer;

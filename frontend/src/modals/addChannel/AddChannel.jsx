@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
-import { setChannels, setCurrentChannelId } from '../../slices/channelsSlice';
+import { setAddChannel, setCurrentChannelId } from '../../slices/channelsSlice';
 
 const Add = ({ isShown, setShown }) => {
     const dispatch = useDispatch();
@@ -16,9 +16,9 @@ const Add = ({ isShown, setShown }) => {
         text: '',
       },
       onSubmit: (values) => {
-        const newChannel = [{ id: _.uniqueId('channel_'), name: `${values.text}`, removable: true }];
-        dispatch(setChannels(newChannel));
-        dispatch(setCurrentChannelId(newChannel[0].id));
+        const newChannel = { id: _.uniqueId('channel_'), name: `${values.text}`, removable: true };
+        dispatch(setAddChannel(newChannel));
+        dispatch(setCurrentChannelId(newChannel.id));
         setShown(false);
         formik.resetForm();
       },
@@ -30,15 +30,14 @@ const Add = ({ isShown, setShown }) => {
     }
  
     return (
-      <Modal className={style.modalBlock}show={isShown} onHide={() => setShown(false)}  animation={false}>
-        {isShown && <div className={style.fade} onClick={closeModal}></div>}
+      <Modal className={style.modalBlock} show={isShown} onHide={() => setShown(false)}  animation={false}>
+        <div className={style.fade} onClick={closeModal}></div>
         <div className={style.modal}>
           <Modal.Header className={style.header}>
             <Modal.Title>Add channel</Modal.Title>
           </Modal.Header>
-
-          <Modal.Body className={style.body} >
-            <Form onSubmit={formik.handleSubmit}>
+          <Form onSubmit={formik.handleSubmit}>
+            <Modal.Body className={style.body} >
               <Form.Group>
                 <Form.Control
                   autoFocus
@@ -49,17 +48,16 @@ const Add = ({ isShown, setShown }) => {
                   value={formik.values.text}
                 />
               </Form.Group>
-            </Form>
-          </Modal.Body>
-
-          <Modal.Footer className={style.footer}>
-            <Button className={style.closeBtn} variant="secondary" onClick={closeModal}>
-              Close
-            </Button>
-            <Button className={style.saveBtn} variant="primary" onClick={formik.handleSubmit}>
-              Save
-            </Button>
-          </Modal.Footer>
+            </Modal.Body>
+            <Modal.Footer className={style.footer}>
+              <Button className={style.closeBtn} variant="secondary" onClick={closeModal}>
+                Close
+              </Button>
+              <Button className={style.saveBtn} variant="primary" type="submit">
+                Save
+              </Button>
+            </Modal.Footer>
+          </Form>
         </div>
       </Modal>
     );

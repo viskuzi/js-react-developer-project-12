@@ -1,25 +1,44 @@
 import React from "react";
 import { useState } from "react";
-import { ArrowDown } from "react-bootstrap-icons";
 import style from './MyDropActive.module.scss';
+import Remove from '../../modals/removeChannel/RemoveChannel';
 
-export const MyDropActive = ({isRemovable}) => {
-    console.log('isremovable', isRemovable)
-    const [isOpen, setIsOpen] = useState(false);
-    const toggling = () => setIsOpen(!isOpen);
-    return (
-      <>
-        {isRemovable && 
-          <div className={style.arrowBlock}>
-            <ArrowDown onClick={toggling} className={style.arrowDownActive}/>
-            {isOpen &&
-              <div onClick={toggling} className={style.dropBlock}>
-                <span className={style.dropBlockItem}>Delete</span>
+export const MyDropActive = ({ isRemovable, id }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [ isRemoveOpen, setRemoveOpen ] = useState(false);
+  const [ isRenameOpen, setRenameOpen ] = useState(false);
+
+  const toggling = () => {
+    setIsOpen(true);
+  };
+
+  const handleClickDelete = () => {
+    setRemoveOpen(true);
+    setIsOpen(false)
+  }
+
+  const handleFadeClick = () => {
+    setIsOpen(false);
+    setRemoveOpen(false);
+  };
+    
+  return (
+    <>
+      {isRemovable && 
+        <div className={style.arrowBlock}>
+          <div onClick={toggling} className={style.arrowDownActive} />
+          {isOpen &&
+            <div>
+              <div onClick={handleFadeClick} className={style.fade}></div>
+              <div className={style.dropBlock}>
+                <span onClick={handleClickDelete} className={style.dropBlockItem}>Remove</span>
                 <span className={style.dropBlockItem}>Rename</span>
               </div>
-            }  
-          </div>
-        }
-      </>
-    );
-  };
+            </div>
+          }
+          <Remove id={id} isShownRemove={isRemoveOpen} setShown={setIsOpen} setShownRemove={setRemoveOpen} />
+        </div>
+      }
+    </>
+  );
+};

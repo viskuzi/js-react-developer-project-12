@@ -1,46 +1,43 @@
 .modalBlock {
     width: 100vw;
     height: 100vh;
+    position: fixed;
+    // background-color: aquamarine;
     .fade {
         left: 0;
         top: 0;
         height: 100%;
         width: 100%;
-        position: absolute;
+        position: fixed;
         background: rgba(0, 0, 0, 0.4);
     }
     .modal {
+        height: 180px;
         width: 360px;
-        padding: 10px;
-        position: absolute;
-        background: #FFFFFF;
+        padding: 20px;
+        position: fixed;
+        background: #fff;
         box-sizing: border-box;
-        font-weight: bold;
+        // font-weight: bold;
         left: calc(50% - 180px);
         top: calc(50% - 120px);
         border-radius: 0.25rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        // z-index: 21;
         .header {
             font-family: system-ui,-apple-system, sans-serif;
             font-size: 1.7rem;
             padding: 10px;
         }
-        .body {
-            height: 44px;
-            margin-bottom: 10px;
-            & input {
-                height: 44px;
-                width: 100%;
-                font-family: system-ui,-apple-system, sans-serif;
-                font-size: 1rem;
-                padding: 10px;
-                border: rgba(13, 164, 240, 0.4) solid 4px;
-                border-radius: 0.25rem;
-                outline: none;
-                
-            }
+        .line {
+            position: absolute;
+            content: "";
+            height: 2px;
+            top: 69px;
+            width: 89%;
+            background-color: #000000;
         }
         .footer {
             // background-color: blueviolet;
@@ -64,10 +61,9 @@
             .saveBtn {
                 width: 80px;
                 height: 40px;
-                background-color: #0d6efd;
                 margin-left: 6px;
-                background-color: #0d6efd;
-                border-color: #0d6efd;
+                background-color: #dc3545;
+                border-color: #dc3545;
                 color: #fff;
                 font-family: system-ui,-apple-system, sans-serif;
                 font-size: 1rem;
