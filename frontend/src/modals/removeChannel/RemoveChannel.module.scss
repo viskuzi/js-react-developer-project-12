@@ -1,78 +1,71 @@
-.modalBlock {
-    width: 100vw;
+.fade {
+    left: 0;
+    top: 0;
     height: 100vh;
-    position: fixed;
-    // background-color: aquamarine;
-    .fade {
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        position: fixed;
-        background: rgba(0, 0, 0, 0.4);
+    width: 100vw;
+    position: absolute;
+    content: "";
+    background: rgba(0, 0, 0, 0.4);
+}
+.modal {
+    height: 180px;
+    width: 360px;
+    padding: 20px;
+    position: absolute;
+    content: "";
+    background: #fff;
+    box-sizing: border-box;
+    left: calc(50% - 180px);
+    top: calc(50% - 120px);
+    border-radius: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .header {
+        font-family: system-ui,-apple-system, sans-serif;
+        font-size: 1.7rem;
+        padding: 10px;
     }
-    .modal {
-        height: 180px;
-        width: 360px;
-        padding: 20px;
-        position: fixed;
-        background: #fff;
-        box-sizing: border-box;
-        // font-weight: bold;
-        left: calc(50% - 180px);
-        top: calc(50% - 120px);
-        border-radius: 0.25rem;
+    .line {
+        position: absolute;
+        content: "";
+        height: 2px;
+        top: 69px;
+        width: 89%;
+        background-color: #000000;
+    }
+    .footer {
+        height: 100%;
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        // z-index: 21;
-        .header {
+        justify-content: flex-end;
+        align-items: center;
+        .closeBtn {
+            width: 80px;
+            height: 40px;
+            background-color: #6c757d;
+            margin-left: 6px;
             font-family: system-ui,-apple-system, sans-serif;
-            font-size: 1.7rem;
+            font-size: 1rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            border: none;
             padding: 10px;
+            cursor: pointer;
         }
-        .line {
-            position: absolute;
-            content: "";
-            height: 2px;
-            top: 69px;
-            width: 89%;
-            background-color: #000000;
-        }
-        .footer {
-            // background-color: blueviolet;
-            height: 100%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            .closeBtn {
-                width: 80px;
-                height: 40px;
-                background-color: #6c757d;
-                margin-left: 6px;
-                font-family: system-ui,-apple-system, sans-serif;
-                font-size: 1rem;
-                border-radius: 0.25rem;
-                text-decoration: none;
-                border: none;
-                padding: 10px;
-                cursor: pointer;
-            }
-            .saveBtn {
-                width: 80px;
-                height: 40px;
-                margin-left: 6px;
-                background-color: #dc3545;
-                border-color: #dc3545;
-                color: #fff;
-                font-family: system-ui,-apple-system, sans-serif;
-                font-size: 1rem;
-                border-radius: 0.25rem;
-                text-decoration: none;
-                border: none;
-                padding: 10px;
-                cursor: pointer;
-            }
+        .saveBtn {
+            width: 80px;
+            height: 40px;
+            margin-left: 6px;
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: #fff;
+            font-family: system-ui,-apple-system, sans-serif;
+            font-size: 1rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
         }
     }
 }

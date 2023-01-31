@@ -22,18 +22,27 @@ const channelsSlice = createSlice({
     setStateClean: (state) => {
       return state = {...initialState};
     },
-    setRemove: (state, {payload}) => {
-      return state = {...initialState};
+    setRemove: (state, { payload }) => {
+      // const index = state.channels.findIndex((channel) => channel.id === payload);
+      // if (index !== -1) {
+      //   state.channels.splice(index, 1);
+      // }
+
+      state.channels = state.channels.filter((channel) => channel.id !== payload);
     },
     setAddChannel: (state, { payload }) => {
       state.channels.push(payload)
     },
     setRenameChannel: (state, { payload } ) => {
-      const index = state.channels.findIndex((channel) => channel.id === payload.id)
-      console.log('index', index);
-      if (index > -1) {
-        state.channels[index] = { ...state.channels[index], name: payload.text  }
-      }
+      // const index = state.channels.findIndex((channel) => channel.id === payload.id)
+      // if (index > -1) {
+      //   state.channels[index] = { ...state.channels[index], name: payload.text  }
+      // }
+      state.channels.map((channel) => {
+        if (channel.id === payload.id) {
+          return Object.assign(channel, payload)
+        }
+      });
     }
   }
 });

@@ -1,37 +1,40 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import style from './RenameChannel.module.scss';
-import { setChannels, setCurrentChannelId, setRenameChannel } from '../../slices/channelsSlice';
-import { useSelector } from 'react-redux';
+import { channelsReducer, setRenameChannel } from '../../slices/channelsSlice';
 import { useFormik } from 'formik';
+import { values } from 'lodash';
 
 const Rename = ({ id, isShownRename, setShownRename }) => {
-  const state = useSelector(state => state.channelsReducer)
-  const { channels } = state;
   const dispatch = useDispatch();
+  const state = useSelector(state => state.channelsReducer)
+  const name = state.channels.filter((channel) => channel.id === id).map((channel) => channel.name)[0];
+  
+  console.log('name', name)
   
   const formik = useFormik({
     initialValues: {
-      text: '',
+      text: name,
+    },
+    onChange: (values) => {
+      values.text = name;
     },
     onSubmit: (values) => {    
-        dispatch(setRenameChannel({id, text: values.text}));
+        dispatch(setRenameChannel({id, name: values.text}));
         formik.resetForm();
         setShownRename(false);
     },
   });
 
   const handleCancel = () => {
-    console.log('in cancel')
     setShownRename(false);
-  }
+  };
 
   return (
-    <Modal className={style.modalBlock} show={isShownRename} onHide={() => setShownRename(false)} animation={false}>
+    <Modal show={isShownRename} onHide={() => setShownRename(false)} animation={false}>
       <div className={style.fade} onClick={() => setShownRename(false)}></div>
       <div className={style.modal}>
-
         <Modal.Header className={style.header}>
           <Modal.Title><b>Rename channel?</b></Modal.Title>
         </Modal.Header>

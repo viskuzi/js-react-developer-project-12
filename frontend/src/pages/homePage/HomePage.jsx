@@ -12,10 +12,8 @@ import { Formik, Form, Field } from 'formik';
 import _ from 'lodash';
 import Add from '../../modals/addChannel/AddChannel';
 import { MyDrop } from '../../components/myDrop/MyDrop';
-import { MyDropActive } from '../../components/myDropActive/MyDropActive'
 
 export const Home = () => {
-  // const [ isActive, setActive ] = useState(false);
   const [ shownAdd, setShownAdd ] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,14 +30,25 @@ export const Home = () => {
   };
 
   const onExitButton = () => {
-    dispatch(setStateClean())
+    dispatch(setStateClean());
     logOut();
     navigate('/login');
   };
 
-  const changeChannel = (id) => {
+  const makeChannelActive = (id) => {
     dispatch(setCurrentChannelId(id));
   };
+
+  const generateChannelsList = (channelsList) => (
+    <ul>{channelsList.map((channel) => {
+      const isChannelActive = channel.id === currentChannelId;
+      return <li className={isChannelActive ? style.channelActive : style.channelNotActive} key={`${channel.id}`}>
+        <button onClick={() => makeChannelActive(channel.id)} className={isChannelActive ? style.channelActiveBtn : style.channelBtn }>#{channel.name}</button>
+        <MyDrop isActive={isChannelActive} isRemovable={channel.removable} id={channel.id} />
+      </li>
+      })}
+    </ul>
+  );
   
   useEffect(() => {
     const fetchData = async () => {
@@ -73,21 +82,12 @@ export const Home = () => {
             <button className={style.addChannelBtn} onClick={() => setShownAdd(true)}>+</button>
             <Add isShown={shownAdd} setShown={setShownAdd} />
           </div>
-          <ul>{channels.map((channel) => {
-            
-              return (
-                <li className={channel.id === currentChannelId ? style.channelActive : style.channelNotActive}  key={`${channel.id}${channel.name}`}>
-                  <button onClick={() => changeChannel(channel.id)} className={channel.id === currentChannelId ? style.channelActiveBtn :style.channelBtn }>#{channel.name}</button>
-                  <MyDrop isActive={channel.id === currentChannelId} isRemovable={channel.removable} id={channel.id} />
-                </li>
-              )
-            })}
-            </ul>
+          {generateChannelsList(channels)}
         </div>
         <div className={style.messageBlock}>
           <div className={style.info}>
-            {channels.filter((channel) => channel.id === currentChannelId)
-              .map((channel) => <div key={channel.id}><span><b># {channel.name}</b></span></div>)}
+            {channels.filter((channel) => channel.id === currentChannelId).map((channel) => 
+            <div key={channel.id}><span><b>#{channel.name}</b></span></div>)}
             <div>{messages.length} сообщений</div>
           </div>
           <div className={style.messageBox}></div>
@@ -111,7 +111,7 @@ export const Home = () => {
               </div>
             </Form>
           </Formik>
-      </div>
+        </div>
       </div>
     </div>
   );
