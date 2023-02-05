@@ -1,82 +1,86 @@
-.modalBlock {
-    width: 100vw;
-    height: 100vh;
-    .fade {
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        background: rgba(0, 0, 0, 0.4);
-    }
-    .modal {
-        width: 360px;
-        padding: 10px;
-        position: absolute;
-        background: #FFFFFF;
-        box-sizing: border-box;
-        font-weight: bold;
-        left: calc(50% - 180px);
-        top: calc(50% - 120px);
-        border-radius: 0.25rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .header {
-            font-family: system-ui,-apple-system, sans-serif;
-            font-size: 1.7rem;
-            padding: 10px;
-        }
-        .body {
-            height: 44px;
-            margin-bottom: 10px;
-            & input {
-                height: 44px;
-                width: 100%;
-                font-family: system-ui,-apple-system, sans-serif;
-                font-size: 1rem;
-                padding: 10px;
-                border: rgba(13, 164, 240, 0.4) solid 4px;
-                border-radius: 0.25rem;
-                outline: none;
+// .modalBlock {
+//     width: 100vw;
+//     height: 100vh;
+//     .fade {
+//         left: 0;
+//         top: 0;
+//         height: 100%;
+//         width: 100%;
+//         position: absolute;
+//         background: rgba(0, 0, 0, 0.4);
+//     }
+//     .modal {
+//         width: 360px;
+//         padding: 10px;
+//         position: absolute;
+//         background: #FFFFFF;
+//         box-sizing: border-box;
+//         font-weight: bold;
+//         left: calc(50% - 180px);
+//         top: calc(50% - 120px);
+//         border-radius: 0.25rem;
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: space-between;
+//         .header {
+//             font-family: system-ui,-apple-system, sans-serif;
+//             font-size: 1.7rem;
+//             padding: 10px;
+//         }
+//         .body {
+//             height: 44px;
+//             margin-bottom: 10px;
+//             & input {
+//                 height: 44px;
+//                 width: 100%;
+//                 font-family: system-ui,-apple-system, sans-serif;
+//                 font-size: 1rem;
+//                 padding: 10px;
+//                 border: rgba(13, 164, 240, 0.4) solid 4px;
+//                 border-radius: 0.25rem;
+//                 outline: none;
                 
-            }
-        }
-        .footer {
-            // background-color: blueviolet;
-            height: 100%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            .closeBtn {
-                width: 80px;
-                height: 40px;
-                background-color: #6c757d;
-                margin-left: 6px;
-                font-family: system-ui,-apple-system, sans-serif;
-                font-size: 1rem;
-                border-radius: 0.25rem;
-                text-decoration: none;
-                border: none;
-                padding: 10px;
-                cursor: pointer;
-            }
-            .saveBtn {
-                width: 80px;
-                height: 40px;
-                background-color: #0d6efd;
-                margin-left: 6px;
-                background-color: #0d6efd;
-                border-color: #0d6efd;
-                color: #fff;
-                font-family: system-ui,-apple-system, sans-serif;
-                font-size: 1rem;
-                border-radius: 0.25rem;
-                text-decoration: none;
-                border: none;
-                padding: 10px;
-                cursor: pointer;
-            }
-        }
-    }
+//             }
+//         }
+//         .footer {
+//             // background-color: blueviolet;
+//             height: 100%;
+//             display: flex;
+//             justify-content: flex-end;
+//             align-items: center;
+//             .closeBtn {
+//                 width: 80px;
+//                 height: 40px;
+//                 background-color: #6c757d;
+//                 margin-left: 6px;
+//                 font-family: system-ui,-apple-system, sans-serif;
+//                 font-size: 1rem;
+//                 border-radius: 0.25rem;
+//                 text-decoration: none;
+//                 border: none;
+//                 padding: 10px;
+//                 cursor: pointer;
+//             }
+//             .saveBtn {
+//                 width: 80px;
+//                 height: 40px;
+//                 background-color: #0d6efd;
+//                 margin-left: 6px;
+//                 background-color: #0d6efd;
+//                 border-color: #0d6efd;
+//                 color: #fff;
+//                 font-family: system-ui,-apple-system, sans-serif;
+//                 font-size: 1rem;
+//                 border-radius: 0.25rem;
+//                 text-decoration: none;
+//                 border: none;
+//                 padding: 10px;
+//                 cursor: pointer;
+//             }
+//         }
+//     }
+// }
+
+.modal_dialog {
+    top: 32% !important;
 }

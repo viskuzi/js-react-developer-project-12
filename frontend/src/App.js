@@ -5,6 +5,7 @@ import { Error } from './pages/errorPage/ErrorPage';
 import { Login } from './pages/loginPage/LoginPage';
 import { MyContext } from './contexts/context.jsx';
 import { useState } from 'react';
+import { ChatPage } from './pages/chat/ChatPage';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -32,6 +33,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Error />} />
+          <Route path="/chat" element={<ChatPage />} />
         </Routes>
       </AuthProvider>   
     </div>

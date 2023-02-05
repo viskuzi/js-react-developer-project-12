@@ -23,27 +23,25 @@ const Remove = ({ id, isShownRemove, setShownRemove, isActive }) => {
   };
 
   return (
-    <Modal show={isShownRemove} onHide={() => setShownRemove(false)} animation={false}>
-      <div className={style.fade} onClick={() => setShownRemove(false)}></div>
-      <div className={style.modal}>
-        <Modal.Header className={style.header}>
-          <Modal.Title><b>Remove channel?</b></Modal.Title>
-        </Modal.Header>
+    <Modal className={style.modal_dialog} show={isShownRemove} onHide={() => setShownRemove(false)} animation={false}>
+     
+      <Modal.Header closeButton>
+        <Modal.Title>Remove channel?</Modal.Title>
+      </Modal.Header>
 
-        <Modal.Body>
-          <div className={style.line}></div>
-          <p style={{paddingLeft: "10px", fontSize: "18px"}}>You sure?</p>
-        </Modal.Body>
+      <Modal.Body>
+        You sure?
+      </Modal.Body>
 
-        <Modal.Footer className={style.footer}>
-          <Button className={style.closeBtn} variant="secondary" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button className={style.saveBtn} variant="primary" onClick={() => removeItem(id)}>
-            Remove
-          </Button>
-        </Modal.Footer>
-      </div>
+      <Modal.Footer className={style.footer}>
+        <Button className={style.closeBtn} variant="secondary" onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button className={style.saveBtn} variant="primary" onClick={() => removeItem(id)}>
+          Remove
+        </Button>
+      </Modal.Footer>
+
     </Modal>
   );
 };

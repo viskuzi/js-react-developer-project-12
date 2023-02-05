@@ -4,14 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import style from './RenameChannel.module.scss';
 import { channelsReducer, setRenameChannel } from '../../slices/channelsSlice';
 import { useFormik } from 'formik';
-import { values } from 'lodash';
 
 const Rename = ({ id, isShownRename, setShownRename }) => {
   const dispatch = useDispatch();
   const state = useSelector(state => state.channelsReducer)
   const name = state.channels.filter((channel) => channel.id === id).map((channel) => channel.name)[0];
-  
-  console.log('name', name)
   
   const formik = useFormik({
     initialValues: {
@@ -32,38 +29,35 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
   };
 
   return (
-    <Modal show={isShownRename} onHide={() => setShownRename(false)} animation={false}>
-      <div className={style.fade} onClick={() => setShownRename(false)}></div>
-      <div className={style.modal}>
-        <Modal.Header className={style.header}>
-          <Modal.Title><b>Rename channel?</b></Modal.Title>
-        </Modal.Header>
+    <Modal className={style.modal_dialog} show={isShownRename} onHide={() => setShownRename(false)}>
+      <Modal.Header closeButton>
+        <Modal.Title>Rename channel?</Modal.Title>
+      </Modal.Header>
 
+      <Modal.Body  >
         <Form onSubmit={formik.handleSubmit}>
-          <Modal.Body className={style.body} >
-              <Form.Group>
-                <Form.Control
-                  autoFocus
-                  onFocus={(e) => e.currentTarget.select()}
-                  id="text"
-                  name="text"
-                  type="text"
-                  onChange={formik.handleChange}
-                  value={formik.values.text}
-                />
-              </Form.Group>
-          </Modal.Body>
-
-          <Modal.Footer className={style.footer}>
-            <Button className={style.closeBtn} variant="secondary" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button className={style.saveBtn} variant="primary" type="submit">
-              Rename
-            </Button>
-          </Modal.Footer>
+          <Form.Group>
+            <Form.Label></Form.Label>
+              <Form.Control
+                autoFocus
+                onFocus={(e) => e.currentTarget.select()}
+                id="text"
+                name="text"
+                type="text"
+                onChange={formik.handleChange}
+              />
+          </Form.Group>
         </Form>
-      </div>
+      </Modal.Body>
+
+      <Modal.Footer >
+        <Button  variant="secondary" onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button  variant="primary" type="submit" onClick={formik.handleSubmit}>
+          Rename
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };

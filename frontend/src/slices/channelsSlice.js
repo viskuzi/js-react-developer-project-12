@@ -4,6 +4,7 @@ const initialState = {
   channels: [],
   currentChannelId: null,
   messages: [],
+  users: [],
 }
 
 const channelsSlice = createSlice({
@@ -15,6 +16,10 @@ const channelsSlice = createSlice({
     },
     setMessages: (state, { payload }) => {
       state.messages = [...state.messages, ...payload.messages ];
+    },
+    addMessage: (state, { payload }) => {
+      console.log(payload)
+      state.messages.push(payload);
     },
     setCurrentChannelId: (state, { payload }) => {
       state.currentChannelId = payload;
@@ -47,5 +52,5 @@ const channelsSlice = createSlice({
   }
 });
 
-export const { setChannels, setMessages, setCurrentChannelId, setStateClean, setRemove, setAddChannel, setRenameChannel } = channelsSlice.actions;
+export const { setChannels, setMessages, setCurrentChannelId, setStateClean, setRemove, setAddChannel, setRenameChannel, addMessage } = channelsSlice.actions;
 export const channelsReducer = channelsSlice.reducer;

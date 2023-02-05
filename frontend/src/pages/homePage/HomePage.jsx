@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { routes } from '../../routes';
-import { setChannels, setCurrentChannelId, setMessages, setStateClean } from '../../slices/channelsSlice.js';
+import { setChannels, setCurrentChannelId, setMessages, setStateClean, addMessage } from '../../slices/channelsSlice.js';
 import { ArrowRight } from 'react-bootstrap-icons';
 import style from './HomePage.module.scss';
 import { useContext } from 'react';
@@ -12,6 +13,10 @@ import { Formik, Form, Field } from 'formik';
 import _ from 'lodash';
 import Add from '../../modals/addChannel/AddChannel';
 import { MyDrop } from '../../components/myDrop/MyDrop';
+import { io } from "socket.io-client";
+import { Button } from 'react-bootstrap';
+
+const socket = io();
 
 export const Home = () => {
   const [ shownAdd, setShownAdd ] = useState(false);
@@ -19,6 +24,7 @@ export const Home = () => {
   const navigate = useNavigate();
   const state = useSelector(state => state.channelsReducer)
   const { channels, messages, currentChannelId } = state;
+  console.log('messages', messages)
   const { logOut } = useContext(MyContext);
 
   const getAuthHeader = () => {
@@ -27,6 +33,10 @@ export const Home = () => {
       return { Authorization: `Bearer ${userId.token}` };
     }
     return {};
+  };
+
+  const sendMessage = (values) => {
+    socket.emit('newMessage', values)
   };
 
   const onExitButton = () => {
@@ -57,22 +67,29 @@ export const Home = () => {
       dispatch(setMessages(data));
       dispatch(setCurrentChannelId(data.currentChannelId));
     }
-
     fetchData();
   }, [dispatch]);
+
+  useEffect(() => {
+    socket.on('newMessage', (data) => {
+      console.log('oheeee!!',data)
+      dispatch(addMessage(data));
+    });
+  }, [])
 
   const userId = JSON.parse(localStorage.getItem('userId'));
   if (!userId) {
     dispatch(setStateClean());
     navigate('/login');
-  }
+  };
 
   return (
     <div className={style.homeBlock}>
       <nav className={style.nav}>
         <div className={style.navContainer}>
           <a href='/'>Hexlet Chat</a>
-          <button className={style.navBtn} onClick={onExitButton}>Выйти</button>
+          {/* <button className={style.navBtn} onClick={onExitButton}>Выйти</button> */}
+          <Button variant="primary" onClick={onExitButton}>Выйти</Button>
         </div>
       </nav>
       <div className={style.container}>
@@ -90,15 +107,19 @@ export const Home = () => {
             <div key={channel.id}><span><b>#{channel.name}</b></span></div>)}
             <div>{messages.length} сообщений</div>
           </div>
-          <div className={style.messageBox}></div>
+          <div className={style.messageBox}>
+           <ul>{messages.map((mess, i) => <li key={i}>{mess.message}</li>)}</ul> 
+          </div>
           <Formik
             initialValues={{ message: ''}}
             onSubmit={(values, { resetForm }) => {
+              sendMessage(values)
               resetForm();
             }}
           >
             <Form  className={style.formBlock}>
               <div className={style.form}>
+                
                 <Field className={style.formInput}
                   name="message"
                   placeholder="Введите сообщение..." 
