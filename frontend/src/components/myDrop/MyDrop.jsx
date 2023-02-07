@@ -4,7 +4,7 @@ import style from './MyDrop.module.scss';
 import Remove from '../../modals/removeChannel/RemoveChannel';
 import Rename from "../../modals/renameChannel/RenameChannel";
 
-export const MyDrop = ({ isActive, isRemovable, id }) => {
+export const MyDrop = ({ isActive, isRemovable, id, socket }) => {
   const [isDropOpen, setDropOpen] = useState(false);
   const [ isRemoveOpen, setRemoveOpen ] = useState(false);
   const [ isRenameOpen, setRenameOpen ] = useState(false);
@@ -42,8 +42,8 @@ export const MyDrop = ({ isActive, isRemovable, id }) => {
               </div>
             </div>
           }
-          <Rename id={id} isShownRename={isRenameOpen} setShownRename={setRenameOpen} />
-          <Remove id={id} isShownRemove={isRemoveOpen} setShownRemove={setRemoveOpen} isActive={isActive} />
+          <Rename id={id} isShownRename={isRenameOpen} setShownRename={setRenameOpen} socket={socket} />
+          <Remove id={id} isShownRemove={isRemoveOpen} setShownRemove={setRemoveOpen} socket={socket} isActive={isActive} />
         </div>
       }
     </>

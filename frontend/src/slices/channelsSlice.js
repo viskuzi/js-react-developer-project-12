@@ -11,15 +11,14 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
+    setUsers: (state, { payload }) => {
+      state.users = payload;
+    },
     setChannels: (state, { payload }) => {
       state.channels = payload;
     },
     setMessages: (state, { payload }) => {
       state.messages = [...state.messages, ...payload.messages ];
-    },
-    addMessage: (state, { payload }) => {
-      console.log(payload)
-      state.messages.push(payload);
     },
     setCurrentChannelId: (state, { payload }) => {
       state.currentChannelId = payload;
@@ -27,22 +26,17 @@ const channelsSlice = createSlice({
     setStateClean: (state) => {
       return state = {...initialState};
     },
-    setRemove: (state, { payload }) => {
-      // const index = state.channels.findIndex((channel) => channel.id === payload);
-      // if (index !== -1) {
-      //   state.channels.splice(index, 1);
-      // }
-
-      state.channels = state.channels.filter((channel) => channel.id !== payload);
+    addMessage: (state, { payload }) => {
+      state.messages.push(payload);
     },
-    setAddChannel: (state, { payload }) => {
+    AddChannel: (state, { payload }) => {
       state.channels.push(payload)
     },
-    setRenameChannel: (state, { payload } ) => {
-      // const index = state.channels.findIndex((channel) => channel.id === payload.id)
-      // if (index > -1) {
-      //   state.channels[index] = { ...state.channels[index], name: payload.text  }
-      // }
+    removeChannel: (state, { payload }) => {
+      state.channels = state.channels.filter((channel) => channel.id !== payload);
+    },
+    renameChannel: (state, { payload } ) => {
+      console.log('payload', payload)
       state.channels.map((channel) => {
         if (channel.id === payload.id) {
           return Object.assign(channel, payload)
@@ -52,5 +46,15 @@ const channelsSlice = createSlice({
   }
 });
 
-export const { setChannels, setMessages, setCurrentChannelId, setStateClean, setRemove, setAddChannel, setRenameChannel, addMessage } = channelsSlice.actions;
+export const { 
+  setChannels,
+  setMessages,
+  setCurrentChannelId,
+  setStateClean,
+  removeChannel,
+  AddChannel,
+  renameChannel,
+  addMessage,
+  setUsers
+ } = channelsSlice.actions;
 export const channelsReducer = channelsSlice.reducer;

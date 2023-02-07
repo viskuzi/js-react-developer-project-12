@@ -1,21 +1,19 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
 import style from './RemoveChannel.module.scss';
-import { setCurrentChannelId, setRemove } from '../../slices/channelsSlice';
 
-const Remove = ({ id, isShownRemove, setShownRemove, isActive }) => {
-  const dispatch = useDispatch();
+const Remove = ({ id, isShownRemove, setShownRemove, socket }) => {
   
   const removeItem = (id) => {
-    if(isActive) {
-      dispatch(setRemove(id));
-      dispatch(setCurrentChannelId(1));
-      setShownRemove(false);
-    } else {
-      dispatch(setRemove(id));
-      setShownRemove(false);
-    }
+    socket.emit('removeChannel', { id });
+    // if(isActive) {
+    //   dispatch(setRemove(id));
+    //   dispatch(setCurrentChannelId(1));
+    //   setShownRemove(false);
+    // } else {
+    //   dispatch(setRemove(id));
+    //   setShownRemove(false);
+    // }
   };
 
   const handleCancel = () => {

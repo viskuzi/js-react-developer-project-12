@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import style from './RenameChannel.module.scss';
 import { channelsReducer, setRenameChannel } from '../../slices/channelsSlice';
 import { useFormik } from 'formik';
+import { useState } from 'react';
 
-const Rename = ({ id, isShownRename, setShownRename }) => {
+const Rename = ({ id, isShownRename, setShownRename, socket }) => {
+  const [err, setErr] = useState(false)
   const dispatch = useDispatch();
   const state = useSelector(state => state.channelsReducer)
   const name = state.channels.filter((channel) => channel.id === id).map((channel) => channel.name)[0];
@@ -17,14 +19,20 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
     onChange: (values) => {
       values.text = name;
     },
-    onSubmit: (values) => {    
-        dispatch(setRenameChannel({id, name: values.text}));
+    onSubmit: (values) => {   
+      if (!values || values.text.length < 3 || values.text.length > 20) {
+        setErr(true);
+        return;
+      } 
+      socket.emit('renameChannel', {id, name: values.text})
+        // dispatch(setRenameChannel({id, name: values.text}));
         formik.resetForm();
         setShownRename(false);
     },
   });
 
   const handleCancel = () => {
+    setErr(false);
     setShownRename(false);
   };
 
@@ -34,7 +42,8 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
         <Modal.Title>Rename channel?</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body  >
+      <Modal.Body>
+      {err && <p style={{color: "red", fontSize: "18px"}}>Must be from 3 to 20 characters</p>}
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
             <Form.Label></Form.Label>
