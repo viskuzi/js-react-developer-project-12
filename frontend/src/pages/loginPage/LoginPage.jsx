@@ -21,10 +21,10 @@ export const Login = () => {
     password: string().required('обязательное поле'),
   });
   
-  const onFormSubmit = async (data) => {
+  const onFormSubmit = async (values) => {
     try {
-      console.log('data', data)
-      const response = await axios.post(routes.loginPath(), data);
+      const response = await axios.post(routes.loginPath(), values);
+      console.log('resp.data', response.data)
       const userId = { token: response.data.token };
       if (userId && userId.token) { //here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         setErr('');

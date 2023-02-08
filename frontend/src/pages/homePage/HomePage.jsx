@@ -50,7 +50,6 @@ export const Home = () => {
   };
 
   const generateChannelsList = (channelsList) => {
-    console.log('cha', channelsList);
     return <ul>{channelsList.map((channel) => {
       const isChannelActive = channel.id === currentChannelId;
       return <li className={isChannelActive ? style.channelActive : style.channelNotActive} key={`${channel.id}`}>
@@ -82,6 +81,12 @@ export const Home = () => {
     });
     socket.on('removeChannel', (data) => {
       dispatch(removeChannel(data.id));
+    //   if (currentChannelId === data.id) {
+    //     dispatch(removeChannel(data.id));
+    //     dispatch(setCurrentChannelId(1));
+    //   } else {
+    //     dispatch(removeChannel(data.id));
+    //   }
     });
     socket.on('renameChannel', (data) => {
       dispatch(renameChannel(data));
@@ -94,10 +99,12 @@ export const Home = () => {
     navigate('/login');
   };
   
-  console.log('current', currentChannelId)
-  if (!channels.some((channel) => channel.id === currentChannelId)) {
-    dispatch(setCurrentChannelId(1));
-  }
+  useEffect(() => {
+    if (!channels.some((channel) => channel.id === currentChannelId)) {
+      dispatch(setCurrentChannelId(1));
+    }
+  }, [channels.length]);
+
 
   return (
     <div className={style.homeBlock}>

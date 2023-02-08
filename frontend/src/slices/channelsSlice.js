@@ -36,7 +36,6 @@ const channelsSlice = createSlice({
       state.channels = state.channels.filter((channel) => channel.id !== payload);
     },
     renameChannel: (state, { payload } ) => {
-      console.log('payload', payload)
       state.channels.map((channel) => {
         if (channel.id === payload.id) {
           return Object.assign(channel, payload)
