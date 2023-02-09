@@ -4,19 +4,27 @@ import { Home } from './pages/homePage/HomePage';
 import { Error } from './pages/errorPage/ErrorPage';
 import { Login } from './pages/loginPage/LoginPage';
 import { MyContext } from './contexts/context.jsx';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ChatPage } from './pages/chat/ChatPage';
+import { subscribe, unsubscribe } from './services/socket';
+import { useDispatch } from 'react-redux';
+
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const logIn = () => {
+  const dispatch = useDispatch();
+
+  const logIn = useCallback(() => {
     setLoggedIn(true);
     console.log('loggedIn!!!!!!!')
-  };
-  const logOut = () => {
+    subscribe(dispatch);
+  }, [dispatch]);
+
+  const logOut = useCallback(() => {
     localStorage.removeItem('userId');
     setLoggedIn(false);
-  };
+    unsubscribe();
+  }, []);
 
   return (
     <MyContext.Provider value={{ loggedIn, logIn, logOut }}>

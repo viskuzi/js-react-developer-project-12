@@ -2,10 +2,11 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import style from './RemoveChannel.module.scss';
 
-const Remove = ({ id, isShownRemove, setShownRemove, socket }) => {
+const Remove = ({ id, isShownRemove, setShownRemove, onChannelRemove }) => {
   
   const removeItem = (id) => {
-    socket.emit('removeChannel', { id });
+    
+    onChannelRemove(id)
     // if(isActive) {
     //   dispatch(setRemove(id));
     //   dispatch(setCurrentChannelId(1));

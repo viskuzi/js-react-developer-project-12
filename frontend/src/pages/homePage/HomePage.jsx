@@ -13,10 +13,10 @@ import { Formik, Form, Field } from 'formik';
 import _ from 'lodash';
 import Add from '../../modals/addChannel/AddChannel';
 import { MyDrop } from '../../components/myDrop/MyDrop';
-import { io } from "socket.io-client";
 import { Button } from 'react-bootstrap';
+import { useCallback } from 'react';
+import { emitNewChannel } from '../../services/socket';
 
-const socket = io();
 
 export const Home = () => {
   const [ shownAdd, setShownAdd ] = useState(false);
@@ -34,11 +34,7 @@ export const Home = () => {
     return {};
   };
 
-  const sendMessage = (values) => {
-    socket.emit('newMessage', { ...values, channelId: currentChannelId, author: 'admin' })
-  };
-
-  const onExitButton = () => {
+    const onExitButton = () => {
     dispatch(setStateClean());
     logOut();
     navigate('/login');
@@ -54,7 +50,7 @@ export const Home = () => {
       const isChannelActive = channel.id === currentChannelId;
       return <li className={isChannelActive ? style.channelActive : style.channelNotActive} key={`${channel.id}`}>
         <button onClick={() => makeChannelActive(channel.id)} className={isChannelActive ? style.channelActiveBtn : style.channelBtn }>#{channel.name}</button>
-        <MyDrop isActive={isChannelActive} isRemovable={channel.removable} id={channel.id} socket={socket}  />
+        <MyDrop isActive={isChannelActive} isRemovable={channel.removable} id={channel.id} onChannelRemove={onChannelRemove} onChannelRename={onChannelRename} />
       </li>
       })}
     </ul>
@@ -62,6 +58,7 @@ export const Home = () => {
   
   useEffect(() => {
     const fetchData = async () => {
+      console.log('in useEff 1')
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
       dispatch(setChannels(data.channels));
       dispatch(setMessages(data));
@@ -71,27 +68,7 @@ export const Home = () => {
     fetchData();
   }, [dispatch]);
 
-  useEffect(() => {
-    socket.on('newMessage', (data) => {
-      dispatch(addMessage(data));
-    });
-    socket.on('newChannel', (data) => {
-      dispatch(AddChannel(data));
-      dispatch(setCurrentChannelId(data.id))
-    });
-    socket.on('removeChannel', (data) => {
-      dispatch(removeChannel(data.id));
-    //   if (currentChannelId === data.id) {
-    //     dispatch(removeChannel(data.id));
-    //     dispatch(setCurrentChannelId(1));
-    //   } else {
-    //     dispatch(removeChannel(data.id));
-    //   }
-    });
-    socket.on('renameChannel', (data) => {
-      dispatch(renameChannel(data));
-    });
-  }, [])
+  
 
   const userId = JSON.parse(localStorage.getItem('userId'));
   if (!userId) {
@@ -100,11 +77,27 @@ export const Home = () => {
   };
   
   useEffect(() => {
+    console.log('in useEff 3')
     if (!channels.some((channel) => channel.id === currentChannelId)) {
       dispatch(setCurrentChannelId(1));
     }
   }, [channels.length]);
 
+  const onChannelCreated = useCallback((payload) => {
+    emitNewChannel(payload);
+  }, []);
+
+  const onMessageCreated = useCallback((payload) => {
+    emitNewMessage(payload, currentChannelId);
+  }, []);
+
+  const onChannelRename = useCallback((id) => {
+    emitRenameChannel(id);
+  }, []);
+
+  const onChannelRemove = useCallback((id) => {
+    emitRemoveChannel(id);
+  }, []);
 
   return (
     <div className={style.homeBlock}>
@@ -119,7 +112,7 @@ export const Home = () => {
           <div className={style.channelsAdd}>
             <span>Каналы</span>
             <button className={style.addChannelBtn} onClick={() => setShownAdd(true)}>+</button>
-            <Add isShown={shownAdd} setShown={setShownAdd} socket={socket} />
+            <Add isShown={shownAdd} setShown={setShownAdd} onChannelCreated={onChannelCreated} />
           </div>
           {generateChannelsList(channels)}
         </div>
@@ -137,7 +130,7 @@ export const Home = () => {
           <Formik
             initialValues={{ message: ''}}
             onSubmit={(values, { resetForm }) => {
-              sendMessage(values)
+              onMessageCreated(values)
               resetForm();
             }}
           >

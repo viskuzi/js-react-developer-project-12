@@ -7,9 +7,9 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { object, string } from 'yup';
 
-const Add = ({ isShown, setShown, socket }) => {
+const Add = ({ isShown, setShown, onChannelCreated }) => {
   const [err, setErr ] = useState(false);
-
+  
   const initialValues = {
     text: '',
   };
@@ -24,7 +24,7 @@ const Add = ({ isShown, setShown, socket }) => {
       return;
     }
     const newChannel = { name: values.text }
-    socket.emit('newChannel', newChannel)
+    onChannelCreated(newChannel)
     setShown(false);
     formik.resetForm();
   };

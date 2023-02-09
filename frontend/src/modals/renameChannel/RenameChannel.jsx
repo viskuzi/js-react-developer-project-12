@@ -6,7 +6,7 @@ import { channelsReducer, setRenameChannel } from '../../slices/channelsSlice';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 
-const Rename = ({ id, isShownRename, setShownRename, socket }) => {
+const Rename = ({ id, isShownRename, setShownRename, onChannelRename }) => {
   const [err, setErr] = useState(false)
   const dispatch = useDispatch();
   const state = useSelector(state => state.channelsReducer)
@@ -24,7 +24,7 @@ const Rename = ({ id, isShownRename, setShownRename, socket }) => {
         setErr(true);
         return;
       } 
-      socket.emit('renameChannel', {id, name: values.text})
+      onChannelRename(id, values.text)
         // dispatch(setRenameChannel({id, name: values.text}));
         formik.resetForm();
         setShownRename(false);

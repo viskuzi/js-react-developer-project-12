@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
 import axios from 'axios';
@@ -21,7 +21,7 @@ export const Login = () => {
     password: string().required('обязательное поле'),
   });
   
-  const onFormSubmit = async (values) => {
+  const onFormSubmit = useCallback(async (values) => {
     try {
       const response = await axios.post(routes.loginPath(), values);
       console.log('resp.data', response.data)
@@ -30,12 +30,12 @@ export const Login = () => {
         setErr('');
         window.localStorage.setItem('userId', JSON.stringify(userId));
         logIn();
-        navigate('/');
+        navigate('/'); // чтото не то с логикой входа и проверки при входу и с setStateClean
       }
     } catch (error) {
       setErr(error.message);
     }
-  };
+  },[logIn, navigate]);
   
   return (
     <div className={style.loginBlock}>
