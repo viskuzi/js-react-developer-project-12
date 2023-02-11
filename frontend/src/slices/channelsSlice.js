@@ -3,22 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   channels: [],
   currentChannelId: null,
-  messages: [],
-  users: [],
 }
 
 const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
-    setUsers: (state, { payload }) => {
-      state.users = payload;
-    },
     setChannels: (state, { payload }) => {
       state.channels = payload;
-    },
-    setMessages: (state, { payload }) => {
-      state.messages = [...state.messages, ...payload.messages ];
     },
     setCurrentChannelId: (state, { payload }) => {
       state.currentChannelId = payload;
@@ -26,10 +18,7 @@ const channelsSlice = createSlice({
     setStateClean: (state) => {
       return state = {...initialState};
     },
-    addMessage: (state, { payload }) => {
-      state.messages.push(payload);
-    },
-    AddChannel: (state, { payload }) => {
+    addChannel: (state, { payload }) => {
       state.channels.push(payload)
     },
     removeChannel: (state, { payload }) => {
@@ -42,6 +31,11 @@ const channelsSlice = createSlice({
         }
       });
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase('removeChannel', (state, { payload }) => {
+      console.log('payload', payload)
+    })
   }
 });
 
@@ -51,9 +45,8 @@ export const {
   setCurrentChannelId,
   setStateClean,
   removeChannel,
-  AddChannel,
+  addChannel,
   renameChannel,
   addMessage,
-  setUsers
- } = channelsSlice.actions;
+} = channelsSlice.actions;
 export const channelsReducer = channelsSlice.reducer;

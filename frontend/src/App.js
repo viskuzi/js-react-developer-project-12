@@ -6,28 +6,31 @@ import { Login } from './pages/loginPage/LoginPage';
 import { MyContext } from './contexts/context.jsx';
 import { useCallback, useState } from 'react';
 import { ChatPage } from './pages/chat/ChatPage';
-import { subscribe, unsubscribe } from './services/socket';
-import { useDispatch } from 'react-redux';
-
+import { useSocket } from './hooks/useSocket';
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const dispatch = useDispatch();
+  const [loggedIn, setLoggedIn] = useState(!!JSON.parse(localStorage.getItem('user'))); //!! makes value boolean
+  const { subscribe, unsubscribe } = useSocket();
+  
+  const userData = JSON.parse(localStorage.getItem('user'));
 
   const logIn = useCallback(() => {
     setLoggedIn(true);
-    console.log('loggedIn!!!!!!!')
-    subscribe(dispatch);
-  }, [dispatch]);
+    subscribe()
+  }, [subscribe]);
 
   const logOut = useCallback(() => {
-    localStorage.removeItem('userId');
+    localStorage.removeItem('user');
     setLoggedIn(false);
     unsubscribe();
-  }, []);
+  }, [unsubscribe]);
 
+  if (loggedIn) {
+    subscribe();
+  }
+  
   return (
-    <MyContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <MyContext.Provider value={{ loggedIn, logIn, logOut, userData }}>
       {children}
     </MyContext.Provider>
   );

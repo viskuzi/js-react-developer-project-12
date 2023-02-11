@@ -6,9 +6,13 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { object, string } from 'yup';
+import { useSelector } from 'react-redux';
 
 const Add = ({ isShown, setShown, onChannelCreated }) => {
-  const [err, setErr ] = useState(false);
+  const [errLength, setErrLength ] = useState(false);
+  const [errNameUniqueness, setErrNameUniqueness ] = useState(false);
+  const state = useSelector(state => state.channelsReducer)
+  const { channels } = state;
   
   const initialValues = {
     text: '',
@@ -20,7 +24,12 @@ const Add = ({ isShown, setShown, onChannelCreated }) => {
 
   const onSubmit = (values) => {
     if (!values || values.text.length < 3 || values.text.length > 20) {
-      setErr(true);
+      setErrLength(true);
+      return;
+    }
+    const notUnique = channels.some((channel) => channel.name === values.text);
+    if (notUnique) {
+      setErrNameUniqueness(true);
       return;
     }
     const newChannel = { name: values.text }
@@ -36,7 +45,8 @@ const Add = ({ isShown, setShown, onChannelCreated }) => {
   });
 
   const handleClose = () => {
-    setErr(false);
+    setErrLength(false);
+    setErrNameUniqueness(false)
     setShown(false);
     formik.resetForm();
   }
@@ -47,7 +57,8 @@ const Add = ({ isShown, setShown, onChannelCreated }) => {
         <Modal.Title>Add channel</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {err && <p style={{color: "red", fontSize: "18px"}}>Must be from 3 to 20 characters</p>}
+        {errLength && <p style={{color: "red", fontSize: "18px"}}>Must be from 3 to 20 characters</p>}
+        {errNameUniqueness && <p style={{color: "red", fontSize: "18px"}}>Channel name must be unique</p>}
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-0">
             <Form.Label></Form.Label>

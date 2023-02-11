@@ -24,13 +24,12 @@ export const Login = () => {
   const onFormSubmit = useCallback(async (values) => {
     try {
       const response = await axios.post(routes.loginPath(), values);
-      console.log('resp.data', response.data)
-      const userId = { token: response.data.token };
-      if (userId && userId.token) { //here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      const user = response.data;
+      if (user) {
         setErr('');
-        window.localStorage.setItem('userId', JSON.stringify(userId));
+        window.localStorage.setItem('user', JSON.stringify(user));
         logIn();
-        navigate('/'); // чтото не то с логикой входа и проверки при входу и с setStateClean
+        navigate('/');
       }
     } catch (error) {
       setErr(error.message);

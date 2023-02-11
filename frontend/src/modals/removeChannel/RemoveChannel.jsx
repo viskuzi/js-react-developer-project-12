@@ -5,16 +5,7 @@ import style from './RemoveChannel.module.scss';
 const Remove = ({ id, isShownRemove, setShownRemove, onChannelRemove }) => {
   
   const removeItem = (id) => {
-    
-    onChannelRemove(id)
-    // if(isActive) {
-    //   dispatch(setRemove(id));
-    //   dispatch(setCurrentChannelId(1));
-    //   setShownRemove(false);
-    // } else {
-    //   dispatch(setRemove(id));
-    //   setShownRemove(false);
-    // }
+    onChannelRemove(id);
   };
 
   const handleCancel = () => {
