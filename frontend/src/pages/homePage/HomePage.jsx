@@ -17,6 +17,8 @@ import { MyDrop } from '../../components/myDrop/MyDrop';
 import { Button } from 'react-bootstrap';
 import { useCallback } from 'react';
 import { emitNewChannel, emitNewMessage, emitRemoveChannel, emitRenameChannel } from '../../services/socket';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Home = () => {
   const [username, setUsername] = useState('')
@@ -25,7 +27,7 @@ export const Home = () => {
   const navigate = useNavigate();
   const stateChannels = useSelector(state => state.channelsReducer)
   const stateMessages = useSelector(state => state.messagesReducer)
-  const { channels, currentChannelId } = stateChannels;
+  const { channels, currentChannelId, addChannelNotification } = stateChannels;
   const { messages } = stateMessages;
   const { logOut, loggedIn, userData } = useContext(MyContext);
 
@@ -38,7 +40,7 @@ export const Home = () => {
 
   const onExitButton = () => {
     localStorage.removeItem('user');
-    // dispatch(setStateClean());   спросить про setstateclean, как добавить уведомления в сокетах о создании и удалении, блокировка кнопок
+    // dispatch(setStateClean());   спросить про setstateclean, блокировка кнопок
     logOut();
     navigate('/login');
   };
@@ -63,8 +65,7 @@ export const Home = () => {
     if (!loggedIn) {
       // dispatch(setStateClean());
       navigate('/login');
-    };
-    
+    } else {
     const fetchData = async () => {
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
       dispatch(setChannels(data.channels));
@@ -73,6 +74,7 @@ export const Home = () => {
     const username = JSON.parse(localStorage.getItem('user')).username;
     setUsername(username);
     fetchData();
+    }
   }, [dispatch]);
 
   useEffect(() => {
@@ -100,6 +102,9 @@ export const Home = () => {
 
   return (
     <div className={style.homeBlock}>
+      <ToastContainer 
+        position="top-center"
+      />
       <nav className={style.nav}>
         <div className={style.navContainer}>
           <a href='/'>Hexlet Chat</a>

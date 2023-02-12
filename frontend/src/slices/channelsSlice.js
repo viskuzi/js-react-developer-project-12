@@ -32,11 +32,6 @@ const channelsSlice = createSlice({
       });
     }
   },
-  extraReducers: (builder) => {
-    builder.addCase('removeChannel', (state, { payload }) => {
-      console.log('payload', payload)
-    })
-  }
 });
 
 export const { 

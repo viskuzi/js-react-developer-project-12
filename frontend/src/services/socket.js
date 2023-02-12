@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
 import { setCurrentChannelId, addChannel, renameChannel, removeChannel } from '../slices/channelsSlice';
 import { addMessage } from '../slices/messagesSlice';
+import { toast } from 'react-toastify';
 
 const socket = io();
 
@@ -33,15 +34,22 @@ export const unsubscribe = () => {
 };
 
 export const emitNewChannel = (payload) => {
-  socket.emit('newChannel', payload);
+  socket.emit('newChannel', payload, (response) => {
+    if (response.status === 'ok') {
+      toast('Channel created!');
+    }
+  });
 };
 export const emitNewMessage = (payload, channelId, username) => {
   socket.emit('newMessage', { ...payload, channelId, author: username }, (response) => {
-    console.log(response.status); 
   })
 };
 export const emitRemoveChannel = (id) => {
-  socket.emit('removeChannel', { id })
+  socket.emit('removeChannel', { id }, (response) => {
+    if (response.status === 'ok') {
+      toast('Channel deleted!');
+    }
+  })
 };
 export const emitRenameChannel = (id, name) => {
   socket.emit('renameChannel', { id, name })
