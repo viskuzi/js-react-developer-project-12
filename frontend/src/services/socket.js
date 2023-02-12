@@ -36,7 +36,16 @@ export const unsubscribe = () => {
 export const emitNewChannel = (payload) => {
   socket.emit('newChannel', payload, (response) => {
     if (response.status === 'ok') {
-      toast('Channel created!');
+      toast('Channel created!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
     }
   });
 };
