@@ -36,7 +36,7 @@ export const unsubscribe = () => {
 export const emitNewChannel = (payload) => {
   socket.emit('newChannel', payload, (response) => {
     if (response.status === 'ok') {
-      toast('Channel created!');
+      toast.success('Channel created!');
     }
   });
 };

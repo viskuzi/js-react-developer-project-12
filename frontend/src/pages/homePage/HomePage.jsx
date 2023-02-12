@@ -104,7 +104,7 @@ export const Home = () => {
     <div className={style.homeBlock}>
       <ToastContainer 
         position="top-center"
-        autoClose={50000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
