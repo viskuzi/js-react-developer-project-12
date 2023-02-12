@@ -19,6 +19,7 @@ import { useCallback } from 'react';
 import { emitNewChannel, emitNewMessage, emitRemoveChannel, emitRenameChannel } from '../../services/socket';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Toaster } from 'react-hot-toast';
 
 export const Home = () => {
   const [username, setUsername] = useState('')
@@ -102,7 +103,7 @@ export const Home = () => {
 
   return (
     <div className={style.homeBlock}>
-      <ToastContainer 
+      {/* <ToastContainer 
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
@@ -112,7 +113,8 @@ export const Home = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      />
+      /> */}
+      <Toaster />
       <nav className={style.nav}>
         <div className={style.navContainer}>
           <a href='/'>Hexlet Chat</a>
@@ -131,7 +133,7 @@ export const Home = () => {
         <div className={style.messageBlock}>
           <div className={style.info}>
             {channels.filter((channel) => channel.id === currentChannelId).map((channel) => 
-            <div key={channel.id}><span><b># {channel.name}</b></span></div>)}
+            <div key={channel.id}><span style={{whiteSpace: "nowrap"}}><b># {channel.name}</b></span></div>)}
             <div>{messages.filter((message) => message.channelId === currentChannelId).length} сообщений</div>
           </div>
           <div className={style.messageBox}>

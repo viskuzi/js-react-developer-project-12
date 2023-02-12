@@ -98,6 +98,7 @@
                     align-items: center;
                     // background-color: #8cabc9;
                     position: relative;
+                    white-space: nowrap;
                     .channelBtn {
                         display: flex;
                         justify-content: space-between;
@@ -125,6 +126,7 @@
                     align-items: center;
                     background-color: #f8f9fa;
                     position: relative;
+                    white-space: nowrap;
                     .channelActiveBtn {
                         display: flex;
                         justify-content: space-between;
