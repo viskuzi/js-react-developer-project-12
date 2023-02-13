@@ -1,0 +1,42 @@
+@import '../../common/styles/sass/variables.scss';
+
+.nav {
+    background-color: #fff;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    line-height: 1.5;
+    .navContainer {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        max-width: 1320px;
+        margin: 0 auto;
+        width: 100%;
+        font-family: system-ui,-apple-system, sans-serif;
+        font-size: 1.25rem;
+        padding-bottom: 0.3125rem;
+        padding-top: 0.3125rem;
+        color: rgba(0,0,0,.9);
+        & > a {
+            text-decoration: none;
+            color: $dark !important;
+            font-family: system-ui, -apple-system, sans-serif;
+            font-size: 1.25rem;
+        }
+        @media screen and (max-width: 1500px) {
+            max-width: 1140px;
+        }
+        @media screen and (max-width: 1200px) {
+            max-width: 960px;
+        }
+        @media screen and (max-width: 1000px) {
+            width: 60%;
+            max-width: 520px;
+            margin-left: 2rem;
+        }
+    }
+}

@@ -17,9 +17,8 @@ import { MyDrop } from '../../components/myDrop/MyDrop';
 import { Button } from 'react-bootstrap';
 import { useCallback } from 'react';
 import { emitNewChannel, emitNewMessage, emitRemoveChannel, emitRenameChannel } from '../../services/socket';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Toaster } from 'react-hot-toast';
+import { Nav } from '../../components/nav/Nav';
 
 export const Home = () => {
   const [username, setUsername] = useState('')
@@ -28,7 +27,7 @@ export const Home = () => {
   const navigate = useNavigate();
   const stateChannels = useSelector(state => state.channelsReducer)
   const stateMessages = useSelector(state => state.messagesReducer)
-  const { channels, currentChannelId, addChannelNotification } = stateChannels;
+  const { channels, currentChannelId } = stateChannels;
   const { messages } = stateMessages;
   const { logOut, loggedIn, userData } = useContext(MyContext);
 
@@ -103,24 +102,7 @@ export const Home = () => {
 
   return (
     <div className={style.homeBlock}>
-      {/* <ToastContainer 
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      /> */}
-      <Toaster />
-      <nav className={style.nav}>
-        <div className={style.navContainer}>
-          <a href='/'>Hexlet Chat</a>
-          <Button variant="primary" onClick={onExitButton}>Выйти</Button>
-        </div>
-      </nav>
+      <Nav button={<Button variant="primary" onClick={onExitButton}>Выйти</Button>}/>
       <div className={style.container}>
         <div className={style.channelsBlock}>
           <div className={style.channelsAdd}>
@@ -150,7 +132,6 @@ export const Home = () => {
           >
             <Form  className={style.formBlock}>
               <div className={style.form}>
-                
                 <Field className={style.formInput}
                   name="message"
                   placeholder="Введите сообщение..." 
@@ -164,6 +145,7 @@ export const Home = () => {
             </Form>
           </Formik>
         </div>
+        <Toaster />
       </div>
     </div>
   );

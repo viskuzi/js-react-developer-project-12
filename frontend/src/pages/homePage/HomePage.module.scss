@@ -1,5 +1,7 @@
+@import '../../common/styles/sass/variables.scss';
+
 .homeBlock {
-    background-color: #f8f9fa;
+    background-color: $light;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -37,7 +39,7 @@
             }
             & > a {
                 text-decoration: none;
-                color: #212529;
+                color: $dark;
                 cursor: pointer;
             }
         }
@@ -61,7 +63,7 @@
             min-width: 220px;
             display: flex;
             flex-direction: column;
-            background-color: #f8f9fa;
+            background-color: $light;
             padding-top: 3rem;
             @media screen and (max-width: 700px) {
                 min-width: 135px;
@@ -77,8 +79,8 @@
                 padding-left: 1.5rem;
                 padding-right: 0.8rem;
                 .addChannelBtn {
-                    border-color: #0d6efd;
-                    color: #0d6efd;
+                    border-color: $blue;
+                    color: $blue;
                     border-radius: 0.25rem;
                     font-size: 1rem;
                 }
@@ -96,7 +98,6 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    // background-color: #8cabc9;
                     position: relative;
                     white-space: nowrap;
                     .channelBtn {
@@ -109,7 +110,7 @@
                         width: 100%;
                         background-color: transparent;
                         border: 1px solid transparent;
-                        color: #212529;
+                        color: $dark;
                         font-family: system-ui,-apple-system, sans-serif;
                         font-size: 1rem;
                         font-weight: 400;
@@ -124,7 +125,7 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    background-color: #f8f9fa;
+                    background-color: $light;
                     position: relative;
                     white-space: nowrap;
                     .channelActiveBtn {
@@ -137,7 +138,7 @@
                         width: 100%;
                         background-color: transparent;
                         border: 1px solid transparent;
-                        color: #212529;
+                        color: $dark;
                         font-family: system-ui,-apple-system, sans-serif;
                         font-size: 1rem;
                         font-weight: 400;
@@ -161,7 +162,7 @@
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
-            background-color: white;
+            background-color: #fff;
             overflow-y: scroll;
             overflow-x: hidden;
             .info {
@@ -174,7 +175,7 @@
                 margin-bottom: 1.5rem;
                 box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
                 font-size: 1rem;
-                background-color: #f8f9fa;
+                background-color: $light;
             }
             .messageBox {
                 display: flex;
@@ -186,14 +187,12 @@
             }
             .formBlock {
                 width: 100%;
-                // background-color: blueviolet;
                 min-height: 76px;
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
                 padding: 1rem 3rem;
                 .form {
-                    // background-color: #1067b3;
                     width: 100%;
                     margin: 0 auto;
                     display: flex;

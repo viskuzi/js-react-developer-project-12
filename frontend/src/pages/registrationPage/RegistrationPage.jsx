@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
+import * as Yup from 'yup';
 import axios from 'axios';
 import { routes } from '../../routes.js'
 import { useContext } from 'react';
@@ -8,23 +9,25 @@ import { MyContext } from '../../contexts/context.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Image from 'react-bootstrap/Image'
-import style from './LoginPage.module.scss';
-import loginImg from '../../assets/images/login_image.jpg';
+import style from './RegistrationPage.module.scss';
+import regImg from '../../assets/images/reg_image.jpg';
 import { Nav } from '../../components/nav/Nav.jsx';
 
-export const Login = () => {
+
+export const Registration = () => {
   const { logIn } = useContext(MyContext);
   const navigate = useNavigate();
   const [err, setErr] = useState(false);
 
   const validationSchema = object({
-    username: string().required('обязательное поле'),
-    password: string().required('обязательное поле'),
+    username: string().required('обязательное поле').min(3, 'Too short - must be 3 chars minimum').max(20, 'Too long - must be 20 chars maximum'),
+    password: string().required('обязательное поле').min(6, 'Too short - must be 6 chars minimum'),
+    confirm: string().required('обязательное поле').oneOf([Yup.ref('password'), null], 'Passwords must match')
   });
   
   const onFormSubmit = useCallback(async (values) => {
     try {
-      const response = await axios.post(routes.loginPath(), values);
+      const response = await axios.post(routes.signupPath(), values);
       const user = response.data;
       if (user) {
         setErr('');
@@ -38,23 +41,23 @@ export const Login = () => {
   },[logIn, navigate]);
   
   return (
-    <div className={style.loginBlock}>
+    <div className={style.regBlock}>
       <Nav />
       <div className={style.container}>
         <div className={style.containerMid}>
           <div className={style.formBlock}>
             <div className={style.imgContainer}>
-              <Image src={loginImg} className={style.loginImg}/>
+              <Image src={regImg} className={style.loginImg}/>
             </div>
             <Formik
-                initialValues={{ username: '', password: '' }}
+                initialValues={{ username: '', password: '', confirm: '' }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
                   onFormSubmit(values);
                 }}
               >
                 <Form className={style.form}>
-                  <h1>Войти</h1>
+                  <h1>Регистрация</h1>
 
                   <div className={style.inputBlock}>
                     <label htmlFor="username" className={style.inp}>
@@ -74,14 +77,19 @@ export const Login = () => {
                     <ErrorMessage className={style.errorMessage} name="password" component="div" />
                   </div>
 
-                  {err && <div onClick={() => setErr('')} className={style.errLog}>{err}</div>}
-                  <button className={style.formBtn} type="submit">Войти</button>
+                  <div className={style.inputBlock}>
+                    <label htmlFor="confirm" className={style.inp}>
+                      <Field className={style.input} type="password" name="confirm" id="confirm"  placeholder="&nbsp;" />
+                      <span className={style.label}>Подтвердите пароль</span>
+                      <span className={style.focus_bg}></span>
+                    </label>
+                    <ErrorMessage className={style.errorMessage} name="confirm" component="div" />
+                  </div>
+
+                  {err && <div onClick={() => setErr('')} className={style.errReg} >{err}</div>}
+                  <button className={style.formBtn} type="submit">Зарегистрироваться</button>
                 </Form>
               </Formik>
-          </div>
-          <div className={style.footer}>
-            <span style={{marginRight: "3px"}}>Нет аккаунта?</span>
-            <a href='/registration' style={{color: "#0d6efd"}}>Регистрация</a>
           </div>
         </div>
       </div>

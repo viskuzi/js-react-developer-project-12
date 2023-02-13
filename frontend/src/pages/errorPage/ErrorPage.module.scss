@@ -1,9 +1,12 @@
+@import '../../common/styles/sass/variables.scss';
+
 .container {
     width: 100vw;
-    height: 300px ;
+    height: 90vh;
+    max-height: 90vh ;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+    background-color: $light;
 }
