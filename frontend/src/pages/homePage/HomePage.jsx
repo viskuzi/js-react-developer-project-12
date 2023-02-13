@@ -19,6 +19,8 @@ import { useCallback } from 'react';
 import { emitNewChannel, emitNewMessage, emitRemoveChannel, emitRenameChannel } from '../../services/socket';
 import { Toaster } from 'react-hot-toast';
 import { Nav } from '../../components/nav/Nav';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 export const Home = () => {
   const [username, setUsername] = useState('')
@@ -102,6 +104,10 @@ export const Home = () => {
 
   return (
     <div className={style.homeBlock}>
+      <ToastContainer 
+        position="top-right"
+        autoClose={2800}
+      />
       <Nav button={<Button variant="primary" onClick={onExitButton}>Выйти</Button>}/>
       <div className={style.container}>
         <div className={style.channelsBlock}>

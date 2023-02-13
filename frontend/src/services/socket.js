@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { setCurrentChannelId, addChannel, renameChannel, removeChannel } from '../slices/channelsSlice';
 import { addMessage } from '../slices/messagesSlice';
-// import { toast } from 'react-toastify';
+import { toast as toast2}  from 'react-toastify';
 import toast from 'react-hot-toast';
 
 const socket = io();
@@ -38,6 +38,8 @@ export const emitNewChannel = (payload) => {
   socket.emit('newChannel', payload, (response) => {
     if (response.status === 'ok') {
       toast.success('Channel created!');
+      toast2("New Channel!")
+
     }
   });
 };
