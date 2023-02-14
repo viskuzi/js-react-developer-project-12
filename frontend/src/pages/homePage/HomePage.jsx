@@ -106,7 +106,6 @@ export const Home = () => {
     <div className={style.homeBlock}>
       <ToastContainer 
         position="top-right"
-        autoClose={2800}
       />
       <Nav button={<Button variant="primary" onClick={onExitButton}>Выйти</Button>}/>
       <div className={style.container}>

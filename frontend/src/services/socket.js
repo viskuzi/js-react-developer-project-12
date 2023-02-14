@@ -38,8 +38,7 @@ export const emitNewChannel = (payload) => {
   socket.emit('newChannel', payload, (response) => {
     if (response.status === 'ok') {
       toast.success('Channel created!');
-      toast2("New Channel!")
-
+      setTimeout(toast2("New Channel!"), 600) 
     }
   });
 };
