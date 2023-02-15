@@ -12,17 +12,18 @@ import Image from 'react-bootstrap/Image'
 import style from './RegistrationPage.module.scss';
 import regImg from '../../assets/images/reg_image.jpg';
 import { Nav } from '../../components/nav/Nav.jsx';
-
+import { useTranslation } from 'react-i18next';
 
 export const Registration = () => {
   const { logIn } = useContext(MyContext);
   const navigate = useNavigate();
   const [err, setErr] = useState(false);
+  const { t } = useTranslation();
 
   const validationSchema = object({
-    username: string().required('обязательное поле').min(3, 'Too short - must be 3 chars minimum').max(20, 'Too long - must be 20 chars maximum'),
-    password: string().required('обязательное поле').min(6, 'Too short - must be 6 chars minimum'),
-    confirm: string().required('обязательное поле').oneOf([Yup.ref('password'), null], 'Passwords must match')
+    username: string().required(t('Required field')).min(3, t('Must be 3 chars minimum')).max(20, t('Must be 20 chars maximum')),
+    password: string().required(t('Required field')).min(6, t('Must be 6 chars minimum')),
+    confirm: string().required(t('Required field')).oneOf([Yup.ref('password'), null], t('Passwords must match'))
   });
   
   const onFormSubmit = useCallback(async (values) => {
@@ -36,9 +37,13 @@ export const Registration = () => {
         navigate('/');
       }
     } catch (error) {
-      setErr(error.message);
+      if (error.response.data.statusCode === 409) {
+        setErr(t('This user already exists'));
+      } else {
+        setErr(error.message);
+      }
     }
-  },[logIn, navigate]);
+  },[logIn, navigate, t]);
   
   return (
     <div className={style.regBlock}>
@@ -57,12 +62,12 @@ export const Registration = () => {
                 }}
               >
                 <Form className={style.form}>
-                  <h1>Регистрация</h1>
+                  <h1>{t('Registration')}</h1>
 
                   <div className={style.inputBlock}>
                     <label htmlFor="username" className={style.inp}>
                       <Field className={style.input} name="username" id="username" placeholder="&nbsp;"  />
-                      <span className={style.label}>Ваш ник</span>
+                      <span className={style.label}>{t('Username')}</span>
                       <span className={style.focus_bg}></span>
                     </label>
                     <ErrorMessage className={style.errorMessage} name="username" component="div" />
@@ -71,7 +76,7 @@ export const Registration = () => {
                   <div className={style.inputBlock}>
                     <label htmlFor="password" className={style.inp}>
                       <Field className={style.input} type="password" name="password" id="password"  placeholder="&nbsp;" />
-                      <span className={style.label}>Пароль</span>
+                      <span className={style.label}>{t('Password')}</span>
                       <span className={style.focus_bg}></span>
                     </label>
                     <ErrorMessage className={style.errorMessage} name="password" component="div" />
@@ -80,14 +85,14 @@ export const Registration = () => {
                   <div className={style.inputBlock}>
                     <label htmlFor="confirm" className={style.inp}>
                       <Field className={style.input} type="password" name="confirm" id="confirm"  placeholder="&nbsp;" />
-                      <span className={style.label}>Подтвердите пароль</span>
+                      <span className={style.label}>{t('Confirm password')}</span>
                       <span className={style.focus_bg}></span>
                     </label>
                     <ErrorMessage className={style.errorMessage} name="confirm" component="div" />
                   </div>
 
-                  {err && <div onClick={() => setErr('')} className={style.errReg} >{err}</div>}
-                  <button className={style.formBtn} type="submit">Зарегистрироваться</button>
+                  {err && <div onClick={() => setErr('')} className={style.errReg}>{err}</div>}
+                  <button className={style.formBtn} type="submit">{t('Register')}</button>
                 </Form>
               </Formik>
           </div>

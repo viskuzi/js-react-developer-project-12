@@ -11,15 +11,17 @@ import Image from 'react-bootstrap/Image'
 import style from './LoginPage.module.scss';
 import loginImg from '../../assets/images/login_image.jpg';
 import { Nav } from '../../components/nav/Nav.jsx';
+import { useTranslation } from 'react-i18next';
 
 export const Login = () => {
   const { logIn } = useContext(MyContext);
   const navigate = useNavigate();
   const [err, setErr] = useState(false);
-
+  const { t } = useTranslation();
+  
   const validationSchema = object({
-    username: string().required('обязательное поле'),
-    password: string().required('обязательное поле'),
+    username: string().required(t('Required field')),
+    password: string().required(t('Required field')),
   });
   
   const onFormSubmit = useCallback(async (values) => {
@@ -33,9 +35,13 @@ export const Login = () => {
         navigate('/');
       }
     } catch (error) {
-      setErr(error.message);
+      if (error.response.data.statusCode === 401) {
+        setErr(t('Not correct name or password'));
+      } else {
+        setErr(error.message);
+      }
     }
-  },[logIn, navigate]);
+  },[logIn, navigate, t]);
   
   return (
     <div className={style.loginBlock}>
@@ -54,12 +60,12 @@ export const Login = () => {
                 }}
               >
                 <Form className={style.form}>
-                  <h1>Войти</h1>
+                  <h1>{t('Enter')}</h1>
 
                   <div className={style.inputBlock}>
                     <label htmlFor="username" className={style.inp}>
                       <Field className={style.input} name="username" id="username" placeholder="&nbsp;"  />
-                      <span className={style.label}>Ваш ник</span>
+                      <span className={style.label}>{t('Your nickname')}</span>
                       <span className={style.focus_bg}></span>
                     </label>
                     <ErrorMessage className={style.errorMessage} name="username" component="div" />
@@ -68,20 +74,20 @@ export const Login = () => {
                   <div className={style.inputBlock}>
                     <label htmlFor="password" className={style.inp}>
                       <Field className={style.input} type="password" name="password" id="password"  placeholder="&nbsp;" />
-                      <span className={style.label}>Пароль</span>
+                      <span className={style.label}>{t('Password')}</span>
                       <span className={style.focus_bg}></span>
                     </label>
                     <ErrorMessage className={style.errorMessage} name="password" component="div" />
                   </div>
 
                   {err && <div onClick={() => setErr('')} className={style.errLog}>{err}</div>}
-                  <button className={style.formBtn} type="submit">Войти</button>
+                  <button className={style.formBtn} type="submit">{t('Enter')}</button>
                 </Form>
               </Formik>
           </div>
           <div className={style.footer}>
-            <span style={{marginRight: "3px"}}>Нет аккаунта?</span>
-            <a href='/registration' style={{color: "#0d6efd"}}>Регистрация</a>
+            <span style={{marginRight: "3px"}}>{t('Don\'t have an account?')}</span>
+            <a href='/registration' style={{color: "#0d6efd"}}>{t('Registration')}</a>
           </div>
         </div>
       </div>

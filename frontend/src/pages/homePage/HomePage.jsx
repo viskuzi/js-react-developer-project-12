@@ -15,14 +15,15 @@ import _ from 'lodash';
 import Add from '../../modals/addChannel/AddChannel';
 import { MyDrop } from '../../components/myDrop/MyDrop';
 import { Button } from 'react-bootstrap';
-import { useCallback } from 'react';
-import { emitNewChannel, emitNewMessage, emitRemoveChannel, emitRenameChannel } from '../../services/socket';
+// import { useCallback } from 'react';
+// import { emitNewChannel, emitNewMessage, emitRemoveChannel, emitRenameChannel } from '../../services/socket';
 import { Toaster } from 'react-hot-toast';
 import { Nav } from '../../components/nav/Nav';
-import 'react-toastify/dist/ReactToastify.min.css';
-import { toast, ToastContainer } from 'react-toastify';
+import { useTranslation } from 'react-i18next'; 
+// import toast from 'react-hot-toast';
 
 export const Home = () => {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('')
   const [ shownAdd, setShownAdd ] = useState(false);
   const dispatch = useDispatch();
@@ -31,7 +32,8 @@ export const Home = () => {
   const stateMessages = useSelector(state => state.messagesReducer)
   const { channels, currentChannelId } = stateChannels;
   const { messages } = stateMessages;
-  const { logOut, loggedIn, userData } = useContext(MyContext);
+  const { logOut, loggedIn, userData, socket } = useContext(MyContext);
+  const messagesNumber = messages.filter((message) => message.channelId === currentChannelId).length;
 
   const getAuthHeader = () => {
     if (userData.username && userData.token) {
@@ -56,7 +58,7 @@ export const Home = () => {
       const isChannelActive = channel.id === currentChannelId;
       return <li className={isChannelActive ? style.channelActive : style.channelNotActive} key={`${channel.id}`}>
         <button onClick={() => makeChannelActive(channel.id)} className={isChannelActive ? style.channelActiveBtn : style.channelBtn }># {channel.name}</button>
-        <MyDrop isActive={isChannelActive} isRemovable={channel.removable} id={channel.id} onChannelRemove={onChannelRemove} onChannelRename={onChannelRename} />
+        <MyDrop isActive={isChannelActive} isRemovable={channel.removable} id={channel.id} />
       </li>
       })}
     </ul>
@@ -86,34 +88,36 @@ export const Home = () => {
     }
   }, [channels.length]);
 
-  const onChannelCreated = useCallback((payload) => {
-    emitNewChannel(payload);
-  }, []);
+  // const onChannelCreated = useCallback((payload) => {
+  //   socket.emit('newChannel', payload, (response) => {
+  //     if (response.status === 'ok') {
+  //       toast.success('Channel created!');
+  //       toast2("New Channel!")
+  //     }
+  //   });
+  // }, []);
 
-  const onMessageCreated = useCallback((payload, id, username) => {
-    emitNewMessage(payload, id, username);
-  }, []);
+  // const onMessageCreated = useCallback((payload, id, username) => {
+  //   emitNewMessage(payload, id, username);
+  // }, []);
 
-  const onChannelRename = useCallback((id, text) => {
-    emitRenameChannel(id, text);
-  }, []);
+  // const onChannelRename = useCallback((id, text) => {
+  //   emitRenameChannel(id, text);
+  // }, []);
 
-  const onChannelRemove = useCallback((id) => {
-    emitRemoveChannel(id);
-  }, []);
-
+  // const onChannelRemove = useCallback((id) => {
+  //   emitRemoveChannel(id);
+  // }, []);
+  
   return (
     <div className={style.homeBlock}>
-      <ToastContainer 
-        position="top-right"
-      />
-      <Nav button={<Button variant="primary" onClick={onExitButton}>Выйти</Button>}/>
+      <Nav button={<Button variant="primary" onClick={onExitButton}>{t('Logout')}</Button>}/>
       <div className={style.container}>
         <div className={style.channelsBlock}>
           <div className={style.channelsAdd}>
-            <span>Каналы</span>
+            <span>{t('Channels')}</span>
             <button className={style.addChannelBtn} onClick={() => setShownAdd(true)}>+</button>
-            <Add isShown={shownAdd} setShown={setShownAdd} onChannelCreated={onChannelCreated} />
+            <Add isShown={shownAdd} setShown={setShownAdd} />
           </div>
           {generateChannelsList(channels)}
         </div>
@@ -121,7 +125,7 @@ export const Home = () => {
           <div className={style.info}>
             {channels.filter((channel) => channel.id === currentChannelId).map((channel) => 
             <div key={channel.id}><span style={{whiteSpace: "nowrap"}}><b># {channel.name}</b></span></div>)}
-            <div>{messages.filter((message) => message.channelId === currentChannelId).length} сообщений</div>
+            <div>{t('messagesCount',{ count: messagesNumber })}</div>
           </div>
           <div className={style.messageBox}>
            <ul>{messages.filter((message) => message.channelId === currentChannelId).map((mess) => {
@@ -131,7 +135,7 @@ export const Home = () => {
           <Formik
             initialValues={{ message: ''}}
             onSubmit={(values, { resetForm }) => {
-              onMessageCreated(values, currentChannelId, username);
+              socket.emit('newMessage', { ...values, channelId: currentChannelId, author: username });
               resetForm();
             }}
           >
@@ -139,7 +143,7 @@ export const Home = () => {
               <div className={style.form}>
                 <Field className={style.formInput}
                   name="message"
-                  placeholder="Введите сообщение..." 
+                  placeholder={t('Enter your message...')}
                   id="message"
                   autoComplete="message"
                   autoFocus

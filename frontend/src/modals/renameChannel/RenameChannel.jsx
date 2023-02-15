@@ -2,32 +2,42 @@ import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import style from './RenameChannel.module.scss';
 import { useFormik } from 'formik';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useContext } from 'react';
+import { MyContext } from '../../contexts/context';
+import { useTranslation } from 'react-i18next';
+import { object, string } from 'yup';
 
-const Rename = ({ id, isShownRename, setShownRename, onChannelRename }) => {
-  const [err, setErr] = useState(false)
-  const [errNameUniqueness, setErrNameUniqueness ] = useState(false);
+const Rename = ({ id, isShownRename, setShownRename }) => {
+  // const [err, setErr] = useState(false)
+  // const [errNameUniqueness, setErrNameUniqueness ] = useState(false);
   const state = useSelector(state => state.channelsReducer);
   const { channels } = state;
+  const channelNames = channels.map((channel) => channel.name)
+  const { socket } = useContext(MyContext);
+  const { t } =useTranslation();
+
+  const validationSchema = object({
+    text: string()
+      .min(3, t('Must be 3 chars minimum'))
+      .max(20, t('Must be 20 chars maximum'))
+      .required(t('Required field'))
+      .notOneOf(channelNames, t('Must be unique')),
+  });
   
+  const submitForm = async (values) => {
+    socket.emit('renameChannel', { id, name: values.text })
+    formik.resetForm();
+    setShownRename(false);
+  };
+
   const formik = useFormik({
     initialValues: {
       text: '',
     },
-    onSubmit: (values) => {
-      if (!values || values.text.length < 3 || values.text.length > 20) {
-        setErr(true);
-        return;
-      }
-      const notUnique = channels.some((channel) => channel.name === values.text);
-      if (notUnique) {
-        setErrNameUniqueness(true);
-        return;
-      }
-      onChannelRename(id, values.text)
-        formik.resetForm();
-        setShownRename(false);
+    validationSchema,
+    onSubmit: async (values) => {
+      await submitForm(values)
     },
   });
 
@@ -38,14 +48,12 @@ const Rename = ({ id, isShownRename, setShownRename, onChannelRename }) => {
 
   return (
     <Modal className={style.modal_dialog} show={isShownRename} onHide={() => setShownRename(false)}>
-      <Modal.Header closeButton>
-        <Modal.Title>Rename channel?</Modal.Title>
-      </Modal.Header>
+      <Form onSubmit={formik.handleSubmit}>
+        <Modal.Header closeButton>
+          <Modal.Title>{t('Rename channel?')}</Modal.Title>
+        </Modal.Header>
 
-      <Modal.Body>
-      {err && <p style={{color: "red", fontSize: "18px"}}>Must be from 3 to 20 characters</p>}
-      {errNameUniqueness && <p style={{color: "red", fontSize: "18px"}}>Channel name must be unique</p>}
-        <Form onSubmit={formik.handleSubmit}>
+        <Modal.Body>
           <Form.Group>
             <Form.Label></Form.Label>
               <Form.Control
@@ -55,19 +63,19 @@ const Rename = ({ id, isShownRename, setShownRename, onChannelRename }) => {
                 name="text"
                 type="text"
                 onChange={formik.handleChange}
+                isInvalid={formik.touched.text && formik.errors.text}
               />
+              <Form.Control.Feedback style={{fontSize: "18px"}} type="invalid">
+              {t(formik.errors.text)}
+            </Form.Control.Feedback>
           </Form.Group>
-        </Form>
-      </Modal.Body>
+        </Modal.Body>
 
-      <Modal.Footer >
-        <Button  variant="secondary" onClick={handleCancel}>
-          Cancel
-        </Button>
-        <Button  variant="primary" type="submit" onClick={formik.handleSubmit}>
-          Rename
-        </Button>
-      </Modal.Footer>
+        <Modal.Footer >
+          <Button variant="secondary" onClick={handleCancel}>{t('Cancel')}</Button>
+          <Button variant="primary" type="submit" onClick={formik.handleSubmit}>{t('Rename')}</Button>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 };

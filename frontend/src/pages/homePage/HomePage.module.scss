@@ -211,6 +211,19 @@
                             outline: none;
                         }
                     }
+                    .errorMessage {
+                        padding-left: 3px;
+                        position: absolute;
+                        width: 200px;
+                        background-color: rgba(220,53,69,.9);
+                        top: -22px;
+                        left: 0;
+                        color: #fff !important;
+                        border-radius: 0.25rem;
+                        font-family: system-ui,-apple-system,"Segoe UI", sans-serif;
+                        font-size: 0.9rem;
+                        opacity: 0.9;
+                    }
                     .formBtn {
                         position: absolute;
                         content: "";

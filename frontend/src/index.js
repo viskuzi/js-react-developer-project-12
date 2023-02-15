@@ -1,23 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import {  BrowserRouter } from 'react-router-dom';
-import { myStore } from './slices/store.js';
-import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { runApp } from '../src/init'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const app = async () => {
+  const vdom = await runApp();
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(vdom);
+}
 
-  <BrowserRouter>
-    <Provider store={myStore}>
-      <App />
-    </Provider>
-  </BrowserRouter> 
-);
-
-window.store = myStore;
+app();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

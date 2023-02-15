@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import style from './AddChannel.module.scss';
 import _ from 'lodash';
 import { useFormik } from 'formik';
@@ -7,81 +7,93 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { object, string } from 'yup';
 import { useSelector } from 'react-redux';
+import { useContext } from 'react';
+import { MyContext } from '../../contexts/context';
+import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
-const Add = ({ isShown, setShown, onChannelCreated }) => {
-  const [errLength, setErrLength ] = useState(false);
-  const [errNameUniqueness, setErrNameUniqueness ] = useState(false);
+const Add = ({ isShown, setShown }) => {
   const state = useSelector(state => state.channelsReducer)
   const { channels } = state;
-  
-  const initialValues = {
-    text: '',
-  };
+  const channelNames = channels.map((channel) => channel.name)
+  const { socket } = useContext(MyContext);
+  const { t } =useTranslation();
 
   const validationSchema = object({
-    text: string().required('Required field'),
+    text: string()
+    .min(3, t('Must be 3 chars minimum'))
+    .max(20, t('Must be 20 chars maximum'))
+    .required(t('Required field'))
+    .notOneOf(channelNames, t('Must be unique')),
   });
 
-  const onSubmit = (values) => {
-    if (!values || values.text.length < 3 || values.text.length > 20) {
-      setErrLength(true);
-      return;
-    }
-    const notUnique = channels.some((channel) => channel.name === values.text);
-    if (notUnique) {
-      setErrNameUniqueness(true);
-      return;
-    }
+  const submitForm = async (values) => {
+    // if (!values || values.text.length < 3 || values.text.length > 20) {
+    //   setErrLength(true);
+    //   return;
+    // }
+    // const notUnique = channels.some((channel) => channel.name === values.text);
+    // if (notUnique) {
+    //   setErrNameUniqueness(true);
+    //   return;
+    // }
+
     const newChannel = { name: values.text }
-    onChannelCreated(newChannel)
+    socket.emit('newChannel', newChannel, (response) => {
+      if (response.status === 'ok') {
+        toast.success(t('Channel created!'));
+      }
+    })
+
     setShown(false);
     formik.resetForm();
   };
 
   const formik = useFormik({
-    initialValues,
-    onSubmit,
+    initialValues: { text: '' },
+    onSubmit: async (values) => {
+      await submitForm(values)
+    },
     validationSchema,
   });
 
   const handleClose = () => {
-    setErrLength(false);
-    setErrNameUniqueness(false)
     setShown(false);
     formik.resetForm();
   }
 
   return (
     <Modal className={style.modal_dialog} show={isShown} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Add channel</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        {errLength && <p style={{color: "red", fontSize: "18px"}}>Must be from 3 to 20 characters</p>}
-        {errNameUniqueness && <p style={{color: "red", fontSize: "18px"}}>Channel name must be unique</p>}
-        <Form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
+        <Modal.Header closeButton>
+          <Modal.Title>{t('Add channel')}</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
           <Form.Group className="mb-0">
-            <Form.Label></Form.Label>
             <Form.Control
-              id="text"
               name="text"
               type="text"
               autoFocus
               onChange={formik.handleChange}
               value={formik.values.text}
-              required
+              isInvalid={formik.touched.text && formik.errors.text}
             />
+            <Form.Control.Feedback style={{fontSize: "18px"}} type="invalid">
+              {t(formik.errors.text)}
+            </Form.Control.Feedback>
           </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button type="submit" variant="primary" onClick={formik.handleSubmit}>
-          Add
-        </Button>
-      </Modal.Footer>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+          {t('Cancel')}
+          </Button>
+          <Button type="submit" variant="primary" onClick={formik.handleSubmit}>
+          {t('Add')}
+          </Button>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 };
