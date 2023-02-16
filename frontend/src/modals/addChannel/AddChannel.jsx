@@ -9,10 +9,12 @@ import { object, string } from 'yup';
 import { useSelector } from 'react-redux';
 import { useContext } from 'react';
 import { MyContext } from '../../contexts/context';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Add = ({ isShown, setShown }) => {
+  const notify = () => toast.success(t('Channel created!'));
   const state = useSelector(state => state.channelsReducer)
   const { channels } = state;
   const channelNames = channels.map((channel) => channel.name)
@@ -41,7 +43,7 @@ const Add = ({ isShown, setShown }) => {
     const newChannel = { name: values.text }
     socket.emit('newChannel', newChannel, (response) => {
       if (response.status === 'ok') {
-        toast.success(t('Channel created!'));
+        notify();
       }
     })
 

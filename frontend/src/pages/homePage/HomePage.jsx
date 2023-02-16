@@ -20,7 +20,8 @@ import { Button } from 'react-bootstrap';
 import { Toaster } from 'react-hot-toast';
 import { Nav } from '../../components/nav/Nav';
 import { useTranslation } from 'react-i18next'; 
-// import toast from 'react-hot-toast';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Home = () => {
   const { t } = useTranslation();
@@ -111,6 +112,7 @@ export const Home = () => {
   
   return (
     <div className={style.homeBlock}>
+      <ToastContainer />
       <Nav button={<Button variant="primary" onClick={onExitButton}>{t('Logout')}</Button>}/>
       <div className={style.container}>
         <div className={style.channelsBlock}>
