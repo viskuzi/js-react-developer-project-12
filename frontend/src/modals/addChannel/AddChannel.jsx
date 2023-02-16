@@ -41,7 +41,7 @@ const Add = ({ isShown, setShown }) => {
     // }
 
     const newChannel = { name: values.text }
-    socket.emit('newChannel', newChannel, (response) => {
+    await socket.emit('newChannel', newChannel, (response) => {
       if (response.status === 'ok') {
         notify();
       }
