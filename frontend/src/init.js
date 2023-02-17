@@ -37,7 +37,7 @@ export const runApp = async () => {
   filter.add(filter.getDictionary('ru'));
   
   const rollbarConfig = {
-    accessToken: '0e2978559c844523ab9a3579cfeab6d9',
+    accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
     environment: 'production',
   };
   
@@ -95,7 +95,7 @@ export const runApp = async () => {
   
   function TestError() {
     const a = null;
-    return a.hello();
+    return a.hi();
   }
 
   return (

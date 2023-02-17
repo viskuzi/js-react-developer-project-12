@@ -65,7 +65,6 @@ export const Home = () => {
   };
   
   useEffect(() => {
-    console.log('in useEff 1')
     if (!loggedIn) {
       // dispatch(setStateClean());
       navigate('/login');
@@ -82,7 +81,6 @@ export const Home = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log('in useEff 2')
     if (!channels.some((channel) => channel.id === currentChannelId)) {
       dispatch(setCurrentChannelId(1));
     }
@@ -111,7 +109,7 @@ export const Home = () => {
   
   return (
     <div className={style.homeBlock}>
-      <Nav button={<Button variant="primary" onClick={onExitButton}>{t('Logout')}</Button>}/>
+      <Nav button={<Button variant="primary" onClick={onExitButton}>{t('Logout')}{process.env.NODE_ENV}</Button>}/>
       <div className={style.container}>
         <div className={style.channelsBlock}>
           <div className={style.channelsAdd}>
