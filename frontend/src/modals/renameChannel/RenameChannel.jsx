@@ -10,8 +10,6 @@ import { object, string } from 'yup';
 import toast from 'react-hot-toast';
 
 const Rename = ({ id, isShownRename, setShownRename }) => {
-  // const [err, setErr] = useState(false)
-  // const [errNameUniqueness, setErrNameUniqueness ] = useState(false);
   const state = useSelector(state => state.channelsReducer);
   const { channels } = state;
   const channelNames = channels.map((channel) => channel.name)

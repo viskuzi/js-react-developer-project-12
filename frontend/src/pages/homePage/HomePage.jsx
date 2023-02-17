@@ -21,10 +21,13 @@ import { Toaster } from 'react-hot-toast';
 import { Nav } from '../../components/nav/Nav';
 import { useTranslation } from 'react-i18next'; 
 import filter from 'leo-profanity';
+// import Scroll from 'react-scroll';
+import { animateScroll } from 'react-scroll';
 
 export const Home = () => {
+  // var scroll = Scroll.animateScroll;
   const { t } = useTranslation();
-  const [username, setUsername] = useState('')
+  // const [username, setUsername] = useState('')
   const [ shownAdd, setShownAdd ] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,6 +37,7 @@ export const Home = () => {
   const { messages } = stateMessages;
   const { logOut, loggedIn, userData, socket } = useContext(MyContext);
   const messagesNumber = messages.filter((message) => message.channelId === currentChannelId).length;
+  console.log('messagesNumber', messagesNumber)
 
   const getAuthHeader = () => {
     if (userData.username && userData.token) {
@@ -65,6 +69,8 @@ export const Home = () => {
   };
   
   useEffect(() => {
+    animateScroll.scrollToBottom({ containerId: 'messageBlock', delay: 0, duration: 0 });
+  
     if (!loggedIn) {
       // dispatch(setStateClean());
       navigate('/login');
@@ -74,11 +80,11 @@ export const Home = () => {
       dispatch(setChannels(data.channels));
       dispatch(setMessages(data.messages));
     }
-    const username = JSON.parse(localStorage.getItem('user')).username;
-    setUsername(username);
+    // const username = JSON.parse(localStorage.getItem('user')).username;
+    // setUsername(username);
     fetchData();
     }
-  }, [dispatch]);
+  }, [dispatch, messagesNumber]);
 
   useEffect(() => {
     if (!channels.some((channel) => channel.id === currentChannelId)) {
@@ -86,30 +92,9 @@ export const Home = () => {
     }
   }, [channels.length]);
 
-  // const onChannelCreated = useCallback((payload) => {
-  //   socket.emit('newChannel', payload, (response) => {
-  //     if (response.status === 'ok') {
-  //       toast.success('Channel created!');
-  //       toast2("New Channel!")
-  //     }
-  //   });
-  // }, []);
-
-  // const onMessageCreated = useCallback((payload, id, username) => {
-  //   emitNewMessage(payload, id, username);
-  // }, []);
-
-  // const onChannelRename = useCallback((id, text) => {
-  //   emitRenameChannel(id, text);
-  // }, []);
-
-  // const onChannelRemove = useCallback((id) => {
-  //   emitRemoveChannel(id);
-  // }, []);
-  
   return (
     <div className={style.homeBlock}>
-      <Nav button={<Button variant="primary" onClick={onExitButton}>{t('Logout')}{process.env.NODE_ENV}</Button>}/>
+      <Nav button={<Button variant="primary" onClick={onExitButton}>{t('Logout')}</Button>}/>
       <div className={style.container}>
         <div className={style.channelsBlock}>
           <div className={style.channelsAdd}>
@@ -119,7 +104,7 @@ export const Home = () => {
           </div>
           {generateChannelsList(channels)}
         </div>
-        <div className={style.messageBlock}>
+        <div id='messageBlock' className={style.messageBlock}>
           <div className={style.info}>
             {channels.filter((channel) => channel.id === currentChannelId).map((channel) => 
             <div key={channel.id}><span style={{whiteSpace: "nowrap"}}><b># {channel.name}</b></span></div>)}
@@ -134,7 +119,7 @@ export const Home = () => {
             initialValues={{ message: ''}}
             onSubmit={(values, { resetForm }) => {
               const cleanMessage = filter.clean(values.message);
-              socket.emit('newMessage', { message: cleanMessage, channelId: currentChannelId, author: username });
+              socket.emit('newMessage', { message: cleanMessage, channelId: currentChannelId, author: userData.username });
               resetForm();
             }}
           >
@@ -158,4 +143,26 @@ export const Home = () => {
     </div>
   );
 };
+
+
+  // const onChannelCreated = useCallback((payload) => {
+  //   socket.emit('newChannel', payload, (response) => {
+  //     if (response.status === 'ok') {
+  //       toast.success('Channel created!');
+  //       toast2("New Channel!")
+  //     }
+  //   });
+  // }, []);
+
+  // const onMessageCreated = useCallback((payload, id, username) => {
+  //   emitNewMessage(payload, id, username);
+  // }, []);
+
+  // const onChannelRename = useCallback((id, text) => {
+  //   emitRenameChannel(id, text);
+  // }, []);
+
+  // const onChannelRemove = useCallback((id) => {
+  //   emitRemoveChannel(id);
+  // }, []);
  

@@ -13,6 +13,7 @@ import style from './RegistrationPage.module.scss';
 import regImg from '../../assets/images/reg_image.jpg';
 import { Nav } from '../../components/nav/Nav.jsx';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 export const Registration = () => {
   const { logIn } = useContext(MyContext);
@@ -28,10 +29,11 @@ export const Registration = () => {
   
   const onFormSubmit = useCallback(async (values) => {
     try {
+      setErr(false);
       const response = await axios.post(routes.signupPath(), values);
       const user = response.data;
       if (user) {
-        setErr('');
+        
         window.localStorage.setItem('user', JSON.stringify(user));
         logIn();
         navigate('/');
@@ -40,7 +42,7 @@ export const Registration = () => {
       if (error.response.data.statusCode === 409) {
         setErr(t('This user already exists'));
       } else {
-        setErr(error.message);
+        toast(t('Connection error'));
       }
     }
   },[logIn, navigate, t]);

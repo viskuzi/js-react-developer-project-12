@@ -78,7 +78,7 @@ export const runApp = async () => {
     const logOut = useCallback(() => {
       localStorage.removeItem('user');
       setLoggedIn(false);
-      socket.removeAllListeners();
+      // socket.removeAllListeners();
       // unsubscribe();
     }, []);
   
@@ -93,11 +93,6 @@ export const runApp = async () => {
     );
   };
   
-  function TestError() {
-    const a = null;
-    return a.hi();
-  }
-
   return (
     <I18nextProvider i18n={i18n}>
       <RollbarProvider config={rollbarConfig}>
@@ -105,7 +100,6 @@ export const runApp = async () => {
           <BrowserRouter>
             <Provider store={store}>
               <AuthProvider>
-                <TestError />
                 <App />
               </AuthProvider>
             </Provider>

@@ -28,16 +28,6 @@ const Add = ({ isShown, setShown }) => {
   });
 
   const submitForm = async (values) => {
-    // if (!values || values.text.length < 3 || values.text.length > 20) {
-    //   setErrLength(true);
-    //   return;
-    // }
-    // const notUnique = channels.some((channel) => channel.name === values.text);
-    // if (notUnique) {
-    //   setErrNameUniqueness(true);
-    //   return;
-    // }
-
     const newChannel = { name: values.text }
     socket.emit('newChannel', newChannel, (response) => {
       if (response.status === 'ok') {

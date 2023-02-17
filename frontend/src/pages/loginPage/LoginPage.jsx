@@ -12,6 +12,7 @@ import style from './LoginPage.module.scss';
 import loginImg from '../../assets/images/login_image.jpg';
 import { Nav } from '../../components/nav/Nav.jsx';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 export const Login = () => {
   const { logIn } = useContext(MyContext);
@@ -26,10 +27,10 @@ export const Login = () => {
   
   const onFormSubmit = useCallback(async (values) => {
     try {
+      setErr(false);
       const response = await axios.post(routes.loginPath(), values);
       const user = response.data;
       if (user) {
-        setErr('');
         window.localStorage.setItem('user', JSON.stringify(user));
         logIn();
         navigate('/');
@@ -38,7 +39,7 @@ export const Login = () => {
       if (error.response.data.statusCode === 401) {
         setErr(t('Not correct name or password'));
       } else {
-        setErr(error.message);
+        toast(t('Connection error'));
       }
     }
   },[logIn, navigate, t]);
