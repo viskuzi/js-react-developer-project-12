@@ -5,16 +5,18 @@ import { ru } from './locales/ru/ru';
 import App from './App';
 import {  BrowserRouter } from 'react-router-dom';
 import { myStore } from './slices/store.js';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MyContext } from './contexts/context.jsx';
 import { useCallback, useState } from 'react';
-import { useSocket } from './hooks/useSocket';
-
+// import { useSocket } from './hooks/useSocket';
+import filter from 'leo-profanity';
 import { io } from 'socket.io-client';
 import { setCurrentChannelId, addChannel, renameChannel, removeChannel } from './slices/channelsSlice';
 import { addMessage } from './slices/messagesSlice';
 // import toast from 'react-hot-toast';
+import React from 'react';
+import { ErrorBoundary, Provider as RollbarProvider } from '@rollbar/react';
 
 export const runApp = async () => {
   const i18n = i18next.createInstance();
@@ -30,6 +32,14 @@ export const runApp = async () => {
 
   const store = configureStore(myStore);
   window.store = store;
+
+  filter.add(filter.getDictionary('en'));
+  filter.add(filter.getDictionary('ru'));
+  
+  const rollbarConfig = {
+    accessToken: '0e2978559c844523ab9a3579cfeab6d9',
+    environment: 'production',
+  };
   
   const socket = io();
   socket
@@ -82,16 +92,26 @@ export const runApp = async () => {
       </MyContext.Provider>
     );
   };
+  
+  function TestError() {
+    const a = null;
+    return a.hello();
+  }
 
   return (
     <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <Provider store={store}>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        </Provider>
-      </BrowserRouter>
+      <RollbarProvider config={rollbarConfig}>
+        <ErrorBoundary>
+          <BrowserRouter>
+            <Provider store={store}>
+              <AuthProvider>
+                <TestError />
+                <App />
+              </AuthProvider>
+            </Provider>
+          </BrowserRouter>
+        </ErrorBoundary>
+      </RollbarProvider>
     </I18nextProvider>
   )
 };

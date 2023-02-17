@@ -20,8 +20,7 @@ import { Button } from 'react-bootstrap';
 import { Toaster } from 'react-hot-toast';
 import { Nav } from '../../components/nav/Nav';
 import { useTranslation } from 'react-i18next'; 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import filter from 'leo-profanity';
 
 export const Home = () => {
   const { t } = useTranslation();
@@ -112,7 +111,6 @@ export const Home = () => {
   
   return (
     <div className={style.homeBlock}>
-      <ToastContainer />
       <Nav button={<Button variant="primary" onClick={onExitButton}>{t('Logout')}</Button>}/>
       <div className={style.container}>
         <div className={style.channelsBlock}>
@@ -137,7 +135,8 @@ export const Home = () => {
           <Formik
             initialValues={{ message: ''}}
             onSubmit={(values, { resetForm }) => {
-              socket.emit('newMessage', { ...values, channelId: currentChannelId, author: username });
+              const cleanMessage = filter.clean(values.message);
+              socket.emit('newMessage', { message: cleanMessage, channelId: currentChannelId, author: username });
               resetForm();
             }}
           >

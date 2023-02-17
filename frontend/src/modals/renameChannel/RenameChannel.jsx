@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { MyContext } from '../../contexts/context';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
+import toast from 'react-hot-toast';
 
 const Rename = ({ id, isShownRename, setShownRename }) => {
   // const [err, setErr] = useState(false)
@@ -26,7 +27,13 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
   });
   
   const submitForm = async (values) => {
-    socket.emit('renameChannel', { id, name: values.text })
+    socket.emit('renameChannel', { id, name: values.text }, (response) => {
+      if (response.status === 'ok') {
+        toast.success(t('Channel renamed!'));
+      } else {
+        toast.error(t('Connection error'));
+      }
+    })
     formik.resetForm();
     setShownRename(false);
   };

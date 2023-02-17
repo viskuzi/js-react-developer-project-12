@@ -36,5 +36,7 @@ export const ru = {
     'Channel removed!': 'Канал удален',
     'Must be unique': 'Должно быть уникальным',
     'This user already exists': 'Такой пользователь уже существует',
+    'Connection error': 'Ошибка соединения',
+    'Channel renamed!': 'Канал переименован',
   },
 };
