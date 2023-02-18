@@ -97,7 +97,7 @@ export const Registration = () => {
                   </div>
 
                   {err && <div onClick={() => setErr('')} className={style.errReg}>{err}</div>}
-                  <button className={style.formBtn} type="submit" disabled={!(isValid && dirty)}>{t('Register')}</button>
+                  <button className={style.formBtn} type="submit" disabled={!isValid}>{t('Register')}</button>
                 </Form>
                 )}
               </Formik>
