@@ -25,10 +25,10 @@ npm ci && npm run build
 npm run start
 
 ╔══════════════════════════════════════════╗
-║ install    │ npm ci                      ║
+║ installing    │ npm ci                   ║
 ║──────────────────────────────────────────║
-║ build      │ npm run build               ║
+║ building      │ npm run build            ║
 ║──────────────────────────────────────────║
-║ start      │ npm run start               ║
+║ start         │ npm run start            ║
 ╚══════════════════════════════════════════╝
 ```
