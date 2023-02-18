@@ -58,12 +58,14 @@ export const Registration = () => {
               <Image src={regImg} className={style.loginImg}/>
             </div>
             <Formik
-                initialValues={{ username: undefined, password: '', confirm: '' }}
+                initialValues={{ username: '', password: '', confirm: '' }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
                   onFormSubmit(values);
                 }}
+                
               >
+                {({ isValid, dirty }) => (
                 <Form className={style.form}>
                   <h1>{t('Registration')}</h1>
 
@@ -95,8 +97,9 @@ export const Registration = () => {
                   </div>
 
                   {err && <div onClick={() => setErr('')} className={style.errReg}>{err}</div>}
-                  <button className={style.formBtn} type="submit" >{t('Register')}</button>
+                  <button className={style.formBtn} type="submit" disabled={!(isValid && dirty)}>{t('Register')}</button>
                 </Form>
+                )}
               </Formik>
           </div>
         </div>
