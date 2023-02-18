@@ -19,6 +19,7 @@ export const Registration = () => {
   const { logIn } = useContext(MyContext);
   const navigate = useNavigate();
   const [err, setErr] = useState(false);
+  const [isDisabled, setDisabled] = useState(true);
   const { t } = useTranslation();
 
   const validationSchema = object({
@@ -57,7 +58,7 @@ export const Registration = () => {
               <Image src={regImg} className={style.loginImg}/>
             </div>
             <Formik
-                initialValues={{ username: '', password: '', confirm: '' }}
+                initialValues={{ username: undefined, password: '', confirm: '' }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
                   onFormSubmit(values);
@@ -94,7 +95,7 @@ export const Registration = () => {
                   </div>
 
                   {err && <div onClick={() => setErr('')} className={style.errReg}>{err}</div>}
-                  <button className={style.formBtn} type="submit">{t('Register')}</button>
+                  <button className={style.formBtn} type="submit" >{t('Register')}</button>
                 </Form>
               </Formik>
           </div>
