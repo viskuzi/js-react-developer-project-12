@@ -18,8 +18,8 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
 
   const validationSchema = object({
     text: string()
-      .min(3, t('Must be 3 chars minimum'))
-      .max(20, t('Must be 20 chars maximum'))
+      .min(3, t('From 3 to 20 characters'))
+      .max(20, t('From 3 to 20 characters'))
       .required(t('Required field'))
       .notOneOf(channelNames, t('Must be unique')),
   });
@@ -55,7 +55,7 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
     <Modal className={style.modal_dialog} show={isShownRename} onHide={() => setShownRename(false)}>
       <Form onSubmit={formik.handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>{t('Rename channel?')}</Modal.Title>
+          <Modal.Title>{t('Rename channel')}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -78,7 +78,7 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
 
         <Modal.Footer >
           <Button variant="secondary" onClick={handleCancel}>{t('Cancel')}</Button>
-          <Button variant="primary" type="submit" onClick={formik.handleSubmit}>{t('Rename')}</Button>
+          <Button variant="primary" type="submit" onClick={formik.handleSubmit}>{t('Send')}</Button>
         </Modal.Footer>
       </Form>
     </Modal>

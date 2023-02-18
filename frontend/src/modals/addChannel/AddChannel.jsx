@@ -21,8 +21,8 @@ const Add = ({ isShown, setShown }) => {
 
   const validationSchema = object({
     text: string()
-    .min(3, t('Must be 3 chars minimum'))
-    .max(20, t('Must be 20 chars maximum'))
+    .min(3, t('From 3 to 20 characters'))
+    .max(20, t('From 3 to 20 characters'))
     .required(t('Required field'))
     .notOneOf(channelNames, t('Must be unique')),
   });
@@ -82,7 +82,7 @@ const Add = ({ isShown, setShown }) => {
           {t('Cancel')}
           </Button>
           <Button type="submit" variant="primary" onClick={formik.handleSubmit}>
-          {t('Add')}
+          {t('Send')}
           </Button>
         </Modal.Footer>
       </Form>

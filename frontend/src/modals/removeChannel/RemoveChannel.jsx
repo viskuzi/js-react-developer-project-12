@@ -26,7 +26,7 @@ const Remove = ({ id, isShownRemove, setShownRemove }) => {
     <Modal className={style.modal_dialog} show={isShownRemove} onHide={() => setShownRemove(false)} animation={false}>
      
       <Modal.Header closeButton>
-        <Modal.Title>{t('Remove channel?')}</Modal.Title>
+        <Modal.Title>{t('Remove channel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>

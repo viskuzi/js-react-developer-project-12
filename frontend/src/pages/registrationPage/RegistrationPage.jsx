@@ -22,8 +22,8 @@ export const Registration = () => {
   const { t } = useTranslation();
 
   const validationSchema = object({
-    username: string().required(t('Required field')).min(3, t('Must be 3 chars minimum')).max(20, t('Must be 20 chars maximum')),
-    password: string().required(t('Required field')).min(6, t('Must be 6 chars minimum')),
+    username: string().required(t('Required field')).min(3, t('From 3 to 20 characters')).max(20, t('From 3 to 20 characters')),
+    password: string().required(t('Required field')).min(6, t('At least 6 characters')),
     confirm: string().required(t('Required field')).oneOf([Yup.ref('password'), null], t('Passwords must match'))
   });
   
