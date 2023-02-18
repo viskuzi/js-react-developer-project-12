@@ -88,7 +88,7 @@ export const Login = () => {
           </div>
           <div className={style.footer}>
             <span style={{marginRight: "3px"}}>{t('Don\'t have an account?')}</span>
-            <a href='/registration' style={{color: "#0d6efd"}}>{t('Registration')}</a>
+            <a href='/signup' style={{color: "#0d6efd"}}>{t('Registration')}</a>
           </div>
         </div>
       </div>
