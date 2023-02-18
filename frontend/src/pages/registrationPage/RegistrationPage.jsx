@@ -65,13 +65,15 @@ export const Registration = () => {
                 }}
                 
               >
-                {({ isValid, dirty }) => (
+                {({ errors, touched, isValid, dirty }) => (
                 <Form className={style.form}>
                   <h1>{t('Registration')}</h1>
 
                   <div className={style.inputBlock}>
                     <label htmlFor="username" className={style.inp}>
-                      <Field className={style.input} name="username" id="username" placeholder="&nbsp;"  />
+                      <Field className={style.input} name="username" id="username" 
+                        placeholder="&nbsp;"
+                        isInvalid={touched.username && errors.username} />
                       <span className={style.label}>{t('Username')}</span>
                       <span className={style.focus_bg}></span>
                     </label>
@@ -80,7 +82,9 @@ export const Registration = () => {
 
                   <div className={style.inputBlock}>
                     <label htmlFor="password" className={style.inp}>
-                      <Field className={style.input} type="password" name="password" id="password"  placeholder="&nbsp;" />
+                      <Field className={style.input} type="password" name="password" id="password"  
+                        placeholder="&nbsp;" 
+                        isInvalid={touched.password && errors.password}/>
                       <span className={style.label}>{t('Password')}</span>
                       <span className={style.focus_bg}></span>
                     </label>
@@ -89,7 +93,9 @@ export const Registration = () => {
 
                   <div className={style.inputBlock}>
                     <label htmlFor="confirm" className={style.inp}>
-                      <Field className={style.input} type="password" name="confirm" id="confirm"  placeholder="&nbsp;" />
+                      <Field className={style.input} type="password" name="confirm" id="confirm"  
+                        placeholder="&nbsp;" 
+                        isInvalid={touched.confirm && errors.confirm}/>
                       <span className={style.label}>{t('Confirm password')}</span>
                       <span className={style.focus_bg}></span>
                     </label>
@@ -97,7 +103,7 @@ export const Registration = () => {
                   </div>
 
                   {err && <div onClick={() => setErr('')} className={style.errReg}>{err}</div>}
-                  <button className={style.formBtn} type="submit" disabled={!isValid}>{t('Register')}</button>
+                  <button className={style.formBtn} type="submit">{t('Register')}</button>
                 </Form>
                 )}
               </Formik>
