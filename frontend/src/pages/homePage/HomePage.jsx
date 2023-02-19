@@ -23,6 +23,8 @@ import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 // import Scroll from 'react-scroll';
 import { animateScroll } from 'react-scroll';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Home = () => {
   // var scroll = Scroll.animateScroll;
@@ -37,7 +39,7 @@ export const Home = () => {
   const { messages } = stateMessages;
   const { logOut, loggedIn, userData, socket } = useContext(MyContext);
   const messagesNumber = messages.filter((message) => message.channelId === currentChannelId).length;
-  console.log('messagesNumber', messagesNumber)
+
 
   const getAuthHeader = () => {
     if (userData.username && userData.token) {
@@ -94,6 +96,7 @@ export const Home = () => {
 
   return (
     <div className={style.homeBlock}>
+      <ToastContainer />
       <Nav button={<Button variant="primary" onClick={onExitButton}>{t('Logout')}</Button>}/>
       <div className={style.container}>
         <div className={style.channelsBlock}>
@@ -125,7 +128,9 @@ export const Home = () => {
           >
             <Form  className={style.formBlock}>
               <div className={style.form}>
+                <label htmlFor="message"></label>
                 <Field className={style.formInput}
+                  aria-label={t('New message')}
                   name="message"
                   placeholder={t('Enter your message...')}
                   id="message"

@@ -34,6 +34,7 @@ export const MyDrop = ({ isActive, isRemovable, id }) => {
     <>
       {isRemovable && 
         <div className={style.arrowBlock}>
+          <span className="visually-hidden">{t('Channel management')}</span>
           <div onClick={toggling} className={isActive ? style.arrowDownActive : style.arrowDown} />
           {isDropOpen &&
             <div>

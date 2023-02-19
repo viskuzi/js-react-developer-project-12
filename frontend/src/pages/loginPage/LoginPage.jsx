@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useCallback, useRef, useEffect } from 'react';
+// import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
 import axios from 'axios';
 import { routes } from '../../routes.js'
@@ -13,6 +13,11 @@ import loginImg from '../../assets/images/login_image.jpg';
 import { Nav } from '../../components/nav/Nav.jsx';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { useFormik } from 'formik';
+import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
+import Button from 'react-bootstrap/Button';
 
 export const Login = () => {
   const { logIn } = useContext(MyContext);
@@ -24,7 +29,12 @@ export const Login = () => {
     username: string().required(t('Required field')),
     password: string().required(t('Required field')),
   });
-  
+
+  const inputRef = useRef();
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   const onFormSubmit = useCallback(async (values) => {
     try {
       setErr(false);
@@ -43,6 +53,14 @@ export const Login = () => {
       }
     }
   },[logIn, navigate, t]);
+
+  const formik = useFormik({
+    initialValues: { username: '', password: '' },
+    onSubmit: (values) => {
+      onFormSubmit(values)
+    },
+    validationSchema,
+  });
   
   return (
     <div className={style.loginBlock}>
@@ -53,38 +71,50 @@ export const Login = () => {
             <div className={style.imgContainer}>
               <Image src={loginImg} className={style.loginImg}/>
             </div>
-            <Formik
-                initialValues={{ username: '', password: '' }}
-                validationSchema={validationSchema}
-                onSubmit={(values) => {
-                  onFormSubmit(values);
-                }}
-              >
-                <Form className={style.form}>
-                  <h1>{t('Enter')}</h1>
 
-                  <div className={style.inputBlock}>
-                    <label htmlFor="username" className={style.inp}>
-                      <Field className={style.input} name="username" id="username" placeholder="&nbsp;"  />
-                      <span className={style.label}>{t('Your nickname')}</span>
-                      <span className={style.focus_bg}></span>
-                    </label>
-                    <ErrorMessage className={style.errorMessage} name="username" component="div" />
-                  </div>
+            <Form onSubmit={formik.handleSubmit} className={style.form}>
+              <h1>{t('Enter')}</h1>
+              <Stack gap={3}>
+                <FloatingLabel controlId="floatingUsername" label={t('Your nickname')}>
+                  <Form.Control className={style.input} 
+                    name="username"
+                    type='text'
+                    placeholder={t('Your nickname')}
+                    required
+                    autoComplete="current-username"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.username}
+                    isInvalid={formik.touched.username && formik.errors.username}
+                    ref={inputRef}
+                  />
+                  <Form.Control.Feedback className={style.errorMessage} type="invalid" tooltip>
+                    {t(formik.errors.username)}
+                  </Form.Control.Feedback>
+                </FloatingLabel>  
 
-                  <div className={style.inputBlock}>
-                    <label htmlFor="password" className={style.inp}>
-                      <Field className={style.input} type="password" name="password" id="password"  placeholder="&nbsp;" />
-                      <span className={style.label}>{t('Password')}</span>
-                      <span className={style.focus_bg}></span>
-                    </label>
-                    <ErrorMessage className={style.errorMessage} name="password" component="div" />
-                  </div>
-
+                <FloatingLabel controlId="floatingPassword"  label={t('Password')}>
+                  <Form.Control className={style.input}
+                    name="password" 
+                    autoComplete="current-password"
+                    placeholder={t('Password')}
+                    type="password"
+                    required
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    isInvalid={formik.touched.password && formik.errors.password}
+                  />
+                  <Form.Control.Feedback className={style.errorMessage} type="invalid" tooltip>
+                    {t(formik.errors.password)}
+                  </Form.Control.Feedback>
+                </FloatingLabel>
                   {err && <div onClick={() => setErr('')} className={style.errLog}>{err}</div>}
-                  <button className={style.formBtn} type="submit">{t('Enter')}</button>
-                </Form>
-              </Formik>
+                  {/* <button className={style.formBtn} type="submit">{t('Enter')}</button> */}
+                  <Button type="submit" variant="outline-primary">{t('Enter')}</Button>
+              </Stack>
+            </Form>
+              
           </div>
           <div className={style.footer}>
             <span style={{marginRight: "3px"}}>{t('Don\'t have an account?')}</span>

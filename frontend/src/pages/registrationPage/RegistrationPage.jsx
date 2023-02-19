@@ -1,5 +1,4 @@
-import React, { useCallback } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { object, string } from 'yup';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -7,13 +6,17 @@ import { routes } from '../../routes.js'
 import { useContext } from 'react';
 import { MyContext } from '../../contexts/context.jsx';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import Image from 'react-bootstrap/Image'
 import style from './RegistrationPage.module.scss';
 import regImg from '../../assets/images/reg_image.jpg';
 import { Nav } from '../../components/nav/Nav.jsx';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { useFormik } from 'formik';
+import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
+import Button from 'react-bootstrap/Button';
 
 export const Registration = () => {
   const { logIn } = useContext(MyContext);
@@ -22,10 +25,22 @@ export const Registration = () => {
   const [isDisabled, setDisabled] = useState(true);
   const { t } = useTranslation();
 
+  const inputRef = useRef();
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   const validationSchema = object({
-    username: string().required(t('Required field')).min(3, t('From 3 to 20 characters')).max(20, t('From 3 to 20 characters')),
-    password: string().required(t('Required field')).min(6, t('At least 6 characters')),
-    confirm: string().required(t('Required field')).oneOf([Yup.ref('password'), null], t('Passwords must match'))
+    username: string()
+      .required(t('Required field'))
+      .min(3, t('From 3 to 20 characters'))
+      .max(20, t('From 3 to 20 characters')),
+    password: string()
+      .required(t('Required field'))
+      .min(6, t('At least 6 characters')),
+    passwordConfirmation: string()
+      .required(t('Required field'))
+      .oneOf([Yup.ref('password'), null], t('Passwords must match'))
   });
   
   const onFormSubmit = useCallback(async (values) => {
@@ -47,6 +62,14 @@ export const Registration = () => {
       }
     }
   },[logIn, navigate, t]);
+
+  const formik = useFormik({
+    initialValues: { username: '', password: '', passwordConfirmation: '' },
+    onSubmit: (values) => {
+      onFormSubmit(values)
+    },
+    validationSchema,
+  });
   
   return (
     <div className={style.regBlock}>
@@ -57,56 +80,64 @@ export const Registration = () => {
             <div className={style.imgContainer}>
               <Image src={regImg} className={style.loginImg}/>
             </div>
-            <Formik
-                initialValues={{ username: '', password: '', confirm: '' }}
-                validationSchema={validationSchema}
-                onSubmit={(values) => {
-                  onFormSubmit(values);
-                }}
-                
-              >
-                {({ errors, touched, isValid, dirty }) => (
-                <Form className={style.form}>
-                  <h1>{t('Registration')}</h1>
+            <Form onSubmit={formik.handleSubmit} className={style.form}>
+              <h1>{t('Registration')}</h1>
+              <Stack gap={3}>
+                <FloatingLabel controlId="floatingUsername" label={t('Username')}>
+                  <Form.Control className={style.input} 
+                    name="username"
+                    type='text'
+                    placeholder={t('Username')}
+                    required
+                    autoComplete="current-username"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.username}
+                    isInvalid={formik.touched.username && formik.errors.username}
+                    ref={inputRef}
+                  />
+                  <Form.Control.Feedback className={style.errorMessage} type="invalid" tooltip>
+                    {t(formik.errors.username)}
+                  </Form.Control.Feedback>
+                </FloatingLabel>
 
-                  <div className={style.inputBlock}>
-                    <label htmlFor="username" className={style.inp}>
-                      <Field className={style.input} name="username" id="username" 
-                        placeholder="&nbsp;"
-                        isInvalid={touched.username && errors.username} />
-                      <span className={style.label}>{t('Username')}</span>
-                      <span className={style.focus_bg}></span>
-                    </label>
-                    <ErrorMessage className={style.errorMessage} name="username" component="div" />
-                  </div>
+                <FloatingLabel controlId="floatingPassword"  label={t('Password')}>
+                  <Form.Control className={style.input}
+                    name="password" 
+                    autoComplete="current-password"
+                    placeholder={t('Password')}
+                    type="password"
+                    required
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    isInvalid={formik.touched.password && formik.errors.password}
+                  />
+                    <Form.Control.Feedback className={style.errorMessage} type="invalid" tooltip>
+                      {t(formik.errors.password)}
+                    </Form.Control.Feedback>
+                </FloatingLabel>
 
-                  <div className={style.inputBlock}>
-                    <label htmlFor="password" className={style.inp}>
-                      <Field className={style.input} type="password" name="password" id="password"  
-                        placeholder="&nbsp;" 
-                        isInvalid={touched.password && errors.password}/>
-                      <span className={style.label}>{t('Password')}</span>
-                      <span className={style.focus_bg}></span>
-                    </label>
-                    <ErrorMessage className={style.errorMessage} name="password" component="div" />
-                  </div>
-
-                  <div className={style.inputBlock}>
-                    <label htmlFor="confirm" className={style.inp}>
-                      <Field className={style.input} type="password" name="confirm" id="confirm"  
-                        placeholder="&nbsp;" 
-                        isInvalid={touched.confirm && errors.confirm}/>
-                      <span className={style.label}>{t('Confirm password')}</span>
-                      <span className={style.focus_bg}></span>
-                    </label>
-                    <ErrorMessage className={style.errorMessage} name="confirm" component="div" />
-                  </div>
-
-                  {err && <div onClick={() => setErr('')} className={style.errReg}>{err}</div>}
-                  <button className={style.formBtn} type="submit">{t('Register')}</button>
-                </Form>
-                )}
-              </Formik>
+                <FloatingLabel controlId="floatingPasswordConfirmation" label={t('Confirm password')}>
+                  <Form.Control className={style.input} 
+                    type="password"
+                    name="passwordConfirmation"
+                    autoComplete="current-passwordConfirmation"
+                    placeholder={t('Confirm password')}
+                    required
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.passwordConfirmation}
+                    isInvalid={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}
+                  />
+                    <Form.Control.Feedback className={style.errorMessage} type="invalid" tooltip>
+                      {t(formik.errors.passwordConfirmation)}
+                    </Form.Control.Feedback>
+                </FloatingLabel>
+                {err && <div onClick={() => setErr(false)} className={style.errReg}>{err}</div>}
+                <Button type="submit" variant="outline-primary">{t('Register')}</Button>
+              </Stack>
+            </Form>
           </div>
         </div>
       </div>

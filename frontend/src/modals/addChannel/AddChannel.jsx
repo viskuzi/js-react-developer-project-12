@@ -9,15 +9,16 @@ import { object, string } from 'yup';
 import { useSelector } from 'react-redux';
 import { useContext } from 'react';
 import { MyContext } from '../../contexts/context';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const Add = ({ isShown, setShown }) => {
   const state = useSelector(state => state.channelsReducer)
   const { channels } = state;
   const channelNames = channels.map((channel) => channel.name)
   const { socket } = useContext(MyContext);
-  const { t } =useTranslation();
+  const { t } = useTranslation();
 
   const validationSchema = object({
     text: string()
@@ -63,6 +64,7 @@ const Add = ({ isShown, setShown }) => {
 
         <Modal.Body>
           <Form.Group className="mb-0">
+          <Form.Label visuallyHidden>{t('Channel name')}</Form.Label>
             <Form.Control
               name="text"
               type="text"

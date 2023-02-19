@@ -27,6 +27,7 @@
     "react-router-dom": "^6.5.0",
     "react-scripts": "5.0.1",
     "react-scroll": "^1.8.9",
+    "react-toastify": "^9.1.1",
     "react-use-websocket": "^4.2.0",
     "rollbar": "^2.26.1",
     "sass": "^1.57.1",
@@ -36,6 +37,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
+    "test:playwright": "playwright test src/tests ",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -60,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.30.0",
     "eslint": "^8.30.0",
     "eslint-plugin-functional": "^4.4.1",
     "eslint-plugin-react": "^7.31.11"
