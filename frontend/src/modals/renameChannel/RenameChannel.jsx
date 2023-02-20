@@ -7,7 +7,8 @@ import { useContext } from 'react';
 import { MyContext } from '../../contexts/context';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 
 const Rename = ({ id, isShownRename, setShownRename }) => {
   const state = useSelector(state => state.channelsReducer);
@@ -24,12 +25,12 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
       .notOneOf(channelNames, t('Must be unique')),
   });
   
-  const submitForm = async (values) => {
+  const submitForm = (values) => {
     socket.emit('renameChannel', { id, name: values.text }, (response) => {
       if (response.status === 'ok') {
-        toast.success(t('Channel renamed!'));
+        toast(t('Channel renamed!'));
       } else {
-        toast.error(t('Connection error'));
+        toast(t('Connection error'));
       }
     })
     formik.resetForm();
@@ -41,8 +42,8 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
       text: '',
     },
     validationSchema,
-    onSubmit: async (values) => {
-      await submitForm(values)
+    onSubmit: (values) => {
+      submitForm(values)
     },
   });
 
@@ -63,7 +64,6 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
             <Form.Label></Form.Label>
               <Form.Control
                 autoFocus
-                onFocus={(e) => e.currentTarget.select()}
                 id="text"
                 name="text"
                 type="text"

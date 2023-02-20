@@ -3,7 +3,8 @@ import { Modal, Button } from 'react-bootstrap';
 import style from './RemoveChannel.module.scss';
 import { useContext } from 'react';
 import { MyContext } from '../../contexts/context';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
 const Remove = ({ id, isShownRemove, setShownRemove }) => {
@@ -13,7 +14,7 @@ const Remove = ({ id, isShownRemove, setShownRemove }) => {
   const removeItem = (id) => {
     socket.emit('removeChannel', { id }, (response) => {
       if (response.status === 'ok') {
-        toast.success(t('Channel removed!'));
+        toast(t('Channel removed!'));
       }
     })
   };

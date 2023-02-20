@@ -32,7 +32,7 @@ export const Login = () => {
 
   const inputRef = useRef();
   useEffect(() => {
-    inputRef.current?.focus();
+    inputRef.current.focus();
   }, []);
 
   const onFormSubmit = useCallback(async (values) => {

@@ -28,7 +28,7 @@ const Add = ({ isShown, setShown }) => {
     .notOneOf(channelNames, t('Must be unique')),
   });
 
-  const submitForm = async (values) => {
+  const submitForm = (values) => {
     const newChannel = { name: values.text }
     socket.emit('newChannel', newChannel, (response) => {
       if (response.status === 'ok') {
@@ -44,8 +44,8 @@ const Add = ({ isShown, setShown }) => {
 
   const formik = useFormik({
     initialValues: { text: '' },
-    onSubmit: async (values) => {
-      await submitForm(values)
+    onSubmit: (values) => {
+      submitForm(values)
     },
     validationSchema,
   });
@@ -54,6 +54,11 @@ const Add = ({ isShown, setShown }) => {
     setShown(false);
     formik.resetForm();
   }
+
+  // const ref = useRef(null)
+  // useEffect(() => {
+  //   ref.current.focus();
+  // }, [])
 
   return (
     <Modal className={style.modal_dialog} show={isShown} onHide={handleClose}>
@@ -64,14 +69,15 @@ const Add = ({ isShown, setShown }) => {
 
         <Modal.Body>
           <Form.Group className="mb-0">
-          <Form.Label visuallyHidden>{t('Channel name')}</Form.Label>
+            <Form.Label visuallyHidden>{t('Channel name')}</Form.Label>
             <Form.Control
+              autoFocus
               name="text"
               type="text"
-              autoFocus
               onChange={formik.handleChange}
               value={formik.values.text}
               isInvalid={formik.touched.text && formik.errors.text}
+              // ref={ref}
             />
             <Form.Control.Feedback style={{fontSize: "18px"}} type="invalid">
               {t(formik.errors.text)}

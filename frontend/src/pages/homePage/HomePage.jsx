@@ -27,9 +27,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const Home = () => {
-  // var scroll = Scroll.animateScroll;
   const { t } = useTranslation();
-  // const [username, setUsername] = useState('')
   const [ shownAdd, setShownAdd ] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -143,7 +141,7 @@ export const Home = () => {
             </Form>
           </Formik>
         </div>
-        <Toaster />
+        {/* <Toaster /> */}
       </div>
     </div>
   );
