@@ -1,11 +1,11 @@
 import { channelsReducer } from './channelsSlice.js';
 import { messagesReducer } from './messagesSlice.js';
 
-const myStore = {
+const MyStore = {
   reducer: {
     channelsReducer,
     messagesReducer,
   },
 };
 
-export default myStore;
+export default MyStore;

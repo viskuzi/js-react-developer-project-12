@@ -1,4 +1,6 @@
-import React, { useCallback, useState, useEffect, useRef, useContext } from 'react';
+import React, {
+  useCallback, useState, useEffect, useRef, useContext,
+} from 'react';
 import { object, string } from 'yup';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -12,7 +14,7 @@ import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
 import routes from '../../routes.js';
-import { MyContext } from '../../contexts/context.jsx';
+import MyContext from '../../contexts/context.jsx';
 import style from './RegistrationPage.module.scss';
 import Nav from '../../components/nav/Nav.jsx';
 import regImg from '../../assets/images/reg_image.jpg';

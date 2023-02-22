@@ -13,7 +13,7 @@ import { io } from 'socket.io-client';
 import { setCurrentChannelId, addChannel, renameChannel, removeChannel } from './slices/channelsSlice';
 import { addMessage } from './slices/messagesSlice';
 // import toast from 'react-hot-toast';
-import { MyContext } from './contexts/context.jsx';
+import MyContext from './contexts/context.jsx';
 import myStore from './slices/store.js';
 import ru from './locales/ru/ru';
 import App from './App';

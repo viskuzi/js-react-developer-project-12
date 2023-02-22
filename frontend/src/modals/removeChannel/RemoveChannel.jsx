@@ -1,22 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import style from './RemoveChannel.module.scss';
-import { useContext } from 'react';
-import { MyContext } from '../../contexts/context';
 // import toast from 'react-hot-toast';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import MyContext from '../../contexts/context';
+import style from './RemoveChannel.module.scss';
 
 const Remove = ({ id, isShownRemove, setShownRemove }) => {
   const { socket } = useContext(MyContext);
-  const { t } =useTranslation();
+  const { t } = useTranslation();
 
-  const removeItem = (id) => {
-    socket.emit('removeChannel', { id }, (response) => {
+  const removeItem = (identificator) => {
+    socket.emit('removeChannel', { identificator }, (response) => {
       if (response.status === 'ok') {
         toast(t('Channel removed!'));
       }
-    })
+    });
   };
 
   const handleCancel = () => {
@@ -24,22 +23,27 @@ const Remove = ({ id, isShownRemove, setShownRemove }) => {
   };
 
   return (
-    <Modal className={style.modal_dialog} show={isShownRemove} onHide={() => setShownRemove(false)} animation={false}>
-     
+    <Modal
+      className={style.modal_dialog}
+      show={isShownRemove}
+      onHide={() => setShownRemove(false)}
+      animation={false}
+    >
+
       <Modal.Header closeButton>
         <Modal.Title>{t('Remove channel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-      {t('Are you sure?')}
+        {t('Are you sure?')}
       </Modal.Body>
 
       <Modal.Footer className={style.footer}>
         <Button className={style.closeBtn} variant="secondary" onClick={handleCancel}>
-        {t('Cancel')}
+          {t('Cancel')}
         </Button>
-        <Button  variant="danger" onClick={() => removeItem(id)}>
-        {t('Remove')}
+        <Button variant="danger" onClick={() => removeItem(id)}>
+          {t('Remove')}
         </Button>
       </Modal.Footer>
 

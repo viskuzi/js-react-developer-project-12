@@ -15,7 +15,7 @@ import { ToastContainer } from 'react-toastify';
 import Nav from '../../components/nav/Nav';
 import MyDrop from '../../components/myDrop/MyDrop';
 import Add from '../../modals/addChannel/AddChannel';
-import { MyContext } from '../../contexts/context';
+import MyContext from '../../contexts/context';
 import style from './HomePage.module.scss';
 import { setMessages } from '../../slices/messagesSlice.js';
 import { setChannels, setCurrentChannelId } from '../../slices/channelsSlice.js';
@@ -34,7 +34,8 @@ const Home = () => {
   const {
     logOut, loggedIn, userData, socket,
   } = useContext(MyContext);
-  const messagesNumber = messages.filter((message) => message.channelId === currentChannelId).length;
+  const messagesNumber = messages.filter((message) => (
+    message.channelId === currentChannelId)).length;
 
   const getAuthHeader = () => {
     if (userData.username && userData.token) {

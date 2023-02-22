@@ -15,7 +15,7 @@ import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
 import Nav from '../../components/nav/Nav.jsx';
 import loginImg from '../../assets/images/login_image.jpg';
-import { MyContext } from '../../contexts/context.jsx';
+import MyContext from '../../contexts/context.jsx';
 import routes from '../../routes.js';
 import style from './LoginPage.module.scss';
 
