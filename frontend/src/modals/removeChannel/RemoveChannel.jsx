@@ -38,7 +38,7 @@ const Remove = ({ id, isShownRemove, setShownRemove }) => {
         <Button className={style.closeBtn} variant="secondary" onClick={handleCancel}>
         {t('Cancel')}
         </Button>
-        <Button className={style.saveBtn} variant="primary" onClick={() => removeItem(id)}>
+        <Button  variant="danger" onClick={() => removeItem(id)}>
         {t('Remove')}
         </Button>
       </Modal.Footer>
