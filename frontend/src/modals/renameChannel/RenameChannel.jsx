@@ -23,17 +23,17 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
       .notOneOf(channelNames, t('Must be unique')),
   });
 
-  const submitForm = (values) => {
-    socket.emit('renameChannel', { id, name: values.text }, (response) => {
-      if (response.status === 'ok') {
-        toast(t('Channel renamed!'));
-      } else {
-        toast(t('Connection error'));
-      }
-    });
-    formik.resetForm();
-    setShownRename(false);
-  };
+  // const submitForm = (values) => {
+  //   socket.emit('renameChannel', { id, name: values.text }, (response) => {
+  //     if (response.status === 'ok') {
+  //       toast(t('Channel renamed!'));
+  //     } else {
+  //       toast(t('Connection error'));
+  //     }
+  //   });
+  //   formik.resetForm();
+  //   setShownRename(false);
+  // };
 
   const formik = useFormik({
     initialValues: {
@@ -41,7 +41,15 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
     },
     validationSchema,
     onSubmit: (values) => {
-      submitForm(values);
+      socket.emit('renameChannel', { id, name: values.text }, (response) => {
+        if (response.status === 'ok') {
+          toast(t('Channel renamed!'));
+        } else {
+          toast(t('Connection error'));
+        }
+      });
+      formik.resetForm();
+      setShownRename(false);
     },
   });
 

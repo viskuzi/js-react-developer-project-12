@@ -41,7 +41,7 @@ const Registration = () => {
       .min(6, t('At least 6 characters')),
     passwordConfirmation: string()
       .required(t('Required field'))
-      .oneOf([Yup.ref('password'), null], t('Passwords must match'))
+      .oneOf([Yup.ref('password'), null], t('Passwords must match')),
   });
 
   const onFormSubmit = useCallback(async (values) => {
@@ -78,7 +78,7 @@ const Registration = () => {
         <div className={style.containerMid}>
           <div className={style.formBlock}>
             <div className={style.imgContainer}>
-              <Image src={regImg} className={style.loginImg}/>
+              <Image src={regImg} className={style.loginImg} />
             </div>
             <Form onSubmit={formik.handleSubmit} className={style.form}>
               <h1>{t('Registration')}</h1>

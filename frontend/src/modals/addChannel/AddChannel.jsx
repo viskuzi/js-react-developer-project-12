@@ -25,24 +25,34 @@ const Add = ({ isShown, setShown }) => {
       .notOneOf(channelNames, t('Must be unique')),
   });
 
-  const submitForm = (values) => {
-    const newChannel = { name: values.text };
-    socket.emit('newChannel', newChannel, (response) => {
-      if (response.status === 'ok') {
-        toast.success(t('Channel created!'));
-      } else {
-        toast.error(t('Connection error'));
-      }
-    });
+  // const submitForm = (values) => {
+  //   const newChannel = { name: values.text };
+  //   socket.emit('newChannel', newChannel, (response) => {
+  //     if (response.status === 'ok') {
+  //       toast.success(t('Channel created!'));
+  //     } else {
+  //       toast.error(t('Connection error'));
+  //     }
+  //   });
 
-    setShown(false);
-    formik.resetForm();
-  };
+  //   setShown(false);
+  //   formik.resetForm();
+  // };
 
   const formik = useFormik({
     initialValues: { text: '' },
     onSubmit: (values) => {
-      submitForm(values);
+      const newChannel = { name: values.text };
+      socket.emit('newChannel', newChannel, (response) => {
+        if (response.status === 'ok') {
+          toast.success(t('Channel created!'));
+        } else {
+          toast.error(t('Connection error'));
+        }
+      });
+
+      setShown(false);
+      formik.resetForm();
     },
     validationSchema,
   });
