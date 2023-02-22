@@ -23,7 +23,6 @@ const Registration = () => {
   const { logIn } = useContext(MyContext);
   const navigate = useNavigate();
   const [err, setErr] = useState(false);
-  // const [isDisabled, setDisabled] = useState(true);
   const { t } = useTranslation();
 
   const inputRef = useRef();

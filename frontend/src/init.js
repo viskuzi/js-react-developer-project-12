@@ -7,7 +7,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import React, { useCallback, useState } from 'react';
-// import { useSocket } from './hooks/useSocket';
 import filter from 'leo-profanity';
 import { io } from 'socket.io-client';
 import { setCurrentChannelId, addChannel, renameChannel, removeChannel } from './slices/channelsSlice';
@@ -65,25 +64,16 @@ const runApp = async () => {
 
   const AuthProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(!!JSON.parse(localStorage.getItem('user'))); //! ! makes value boolean
-    // const { subscribe, unsubscribe } = useSocket();
-
     const userData = JSON.parse(localStorage.getItem('user'));
 
     const logIn = useCallback(() => {
       setLoggedIn(true);
-      // subscribe()
     }, []);
 
     const logOut = useCallback(() => {
       localStorage.removeItem('user');
       setLoggedIn(false);
-      // socket.removeAllListeners();
-      // unsubscribe();
     }, []);
-
-    // if (loggedIn) {
-    //   subscribe();
-    // }
 
     return (
       <MyContext.Provider value={{

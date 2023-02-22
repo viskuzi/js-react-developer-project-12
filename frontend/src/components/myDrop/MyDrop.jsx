@@ -2,34 +2,21 @@
 import React, { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useTranslation } from 'react-i18next';
-// import style from './MyDrop.module.scss';
 import Remove from '../../modals/removeChannel/RemoveChannel';
 import Rename from '../../modals/renameChannel/RenameChannel';
 
 const MyDrop = ({ isActive, isRemovable, id }) => {
-  // const [isDropOpen, setDropOpen] = useState(false);
   const [isRemoveOpen, setRemoveOpen] = useState(false);
   const [isRenameOpen, setRenameOpen] = useState(false);
   const { t } = useTranslation();
 
-  // const toggling = () => {
-  //   setDropOpen(!isDropOpen);
-  // };
-
   const handleClickRemove = () => {
     setRemoveOpen(true);
-    // setDropOpen(false);
   };
 
   const handleClickRename = () => {
     setRenameOpen(true);
-    // setDropOpen(false);
   };
-
-  // const handleFadeClick = () => {
-  //   setRemoveOpen(false);
-  //   setDropOpen(false);
-  // };
 
   return (
     <>

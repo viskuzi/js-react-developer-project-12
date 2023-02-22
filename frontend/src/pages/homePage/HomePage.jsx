@@ -9,7 +9,6 @@ import { Button } from 'react-bootstrap';
 // import { Toaster } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
-// import Scroll from 'react-scroll';
 import { animateScroll } from 'react-scroll';
 import { ToastContainer } from 'react-toastify';
 import Nav from '../../components/nav/Nav';
@@ -46,7 +45,6 @@ const Home = () => {
 
   const onExitButton = () => {
     localStorage.removeItem('user');
-    // dispatch(setStateClean());   спросить про setstateclean, блокировка кнопок
     logOut();
     navigate('/login');
   };
@@ -80,7 +78,6 @@ const Home = () => {
     animateScroll.scrollToBottom({ containerId: 'messageBlock', delay: 0, duration: 0 });
 
     if (!loggedIn) {
-      // dispatch(setStateClean());
       navigate('/login');
     } else {
       const fetchData = async () => {
@@ -88,8 +85,7 @@ const Home = () => {
         dispatch(setChannels(data.channels));
         dispatch(setMessages(data.messages));
       };
-      // const username = JSON.parse(localStorage.getItem('user')).username;
-      // setUsername(username);
+
       fetchData();
     }
   }, [dispatch, messagesNumber]);
@@ -174,24 +170,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// const onChannelCreated = useCallback((payload) => {
-//   socket.emit('newChannel', payload, (response) => {
-//     if (response.status === 'ok') {
-//       toast.success('Channel created!');
-//       toast2("New Channel!")
-//     }
-//   });
-// }, []);
-
-// const onMessageCreated = useCallback((payload, id, username) => {
-//   emitNewMessage(payload, id, username);
-// }, []);
-
-// const onChannelRename = useCallback((id, text) => {
-//   emitRenameChannel(id, text);
-// }, []);
-
-// const onChannelRemove = useCallback((id) => {
-//   emitRemoveChannel(id);
-// }, []);

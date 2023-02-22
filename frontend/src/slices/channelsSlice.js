@@ -11,7 +11,6 @@ const channelsSlice = createSlice({
   reducers: {
     setChannels: (state, { payload }) => ({ ...state, channels: payload }),
     setCurrentChannelId: (state, { payload }) => ({ ...state, currentChannelId: payload }),
-    // setStateClean: (state) => state = { ...initialState },
     addChannel: (state, { payload }) => {
       state.channels.push(payload);
     },
@@ -34,7 +33,6 @@ export const {
   setChannels,
   setMessages,
   setCurrentChannelId,
-  // setStateClean,
   removeChannel,
   addChannel,
   renameChannel,

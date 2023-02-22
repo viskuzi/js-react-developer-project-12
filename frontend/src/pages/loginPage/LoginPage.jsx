@@ -1,7 +1,6 @@
 import React, {
   useCallback, useRef, useEffect, useContext, useState,
 } from 'react';
-// import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -111,7 +110,6 @@ const Login = () => {
                   </Form.Control.Feedback>
                 </FloatingLabel>
                 {err && <div className={style.errLog}>{err}</div>}
-                {/* <button className={style.formBtn} type="submit">{t('Enter')}</button> */}
                 <Button type="submit" variant="outline-primary">{t('Enter')}</Button>
               </Stack>
             </Form>
