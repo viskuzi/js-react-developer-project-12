@@ -10,8 +10,8 @@ const Remove = ({ id, isShownRemove, setShownRemove }) => {
   const { socket } = useContext(MyContext);
   const { t } = useTranslation();
 
-  const removeItem = (identificator) => {
-    socket.emit('removeChannel', { identificator }, (response) => {
+  const removeItem = (ID) => {
+    socket.emit('removeChannel', { id: ID }, (response) => {
       if (response.status === 'ok') {
         toast(t('Channel removed!'));
       }
