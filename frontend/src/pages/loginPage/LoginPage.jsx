@@ -1,16 +1,11 @@
-import React, { useCallback, useRef, useEffect } from 'react';
+import React, {
+  useCallback, useRef, useEffect, useContext, useState,
+} from 'react';
 // import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
 import axios from 'axios';
-import { routes } from '../../routes.js'
-import { useContext } from 'react';
-import { MyContext } from '../../contexts/context.jsx';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import Image from 'react-bootstrap/Image'
-import style from './LoginPage.module.scss';
-import loginImg from '../../assets/images/login_image.jpg';
-import { Nav } from '../../components/nav/Nav.jsx';
+import Image from 'react-bootstrap/Image';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
@@ -18,13 +13,18 @@ import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
+import { Nav } from '../../components/nav/Nav.jsx';
+import loginImg from '../../assets/images/login_image.jpg';
+import { MyContext } from '../../contexts/context.jsx';
+import { routes } from '../../routes.js';
+import style from './LoginPage.module.scss';
 
-export const Login = () => {
+export function Login() {
   const { logIn } = useContext(MyContext);
   const navigate = useNavigate();
   const [err, setErr] = useState(false);
   const { t } = useTranslation();
-  
+
   const validationSchema = object({
     username: string().required(t('Required field')),
     password: string().required(t('Required field')),
@@ -52,16 +52,16 @@ export const Login = () => {
         toast(t('Connection error'));
       }
     }
-  },[logIn, navigate, t]);
+  }, [logIn, navigate, t]);
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
     onSubmit: (values) => {
-      onFormSubmit(values)
+      onFormSubmit(values);
     },
     validationSchema,
   });
-  
+
   return (
     <div className={style.loginBlock}>
       <Nav />
@@ -69,16 +69,17 @@ export const Login = () => {
         <div className={style.containerMid}>
           <div className={style.formBlock}>
             <div className={style.imgContainer}>
-              <Image src={loginImg} className={style.loginImg}/>
+              <Image src={loginImg} className={style.loginImg} />
             </div>
 
             <Form onSubmit={formik.handleSubmit} className={style.form}>
               <h1>{t('Enter')}</h1>
               <Stack gap={3}>
                 <FloatingLabel controlId="floatingUsername" label={t('Your nickname')}>
-                  <Form.Control className={style.input} 
+                  <Form.Control
+                    className={style.input}
                     name="username"
-                    type='text'
+                    type="text"
                     placeholder={t('Your nickname')}
                     required
                     autoComplete="current-username"
@@ -91,11 +92,12 @@ export const Login = () => {
                   <Form.Control.Feedback className={style.errorMessage} type="invalid" tooltip>
                     {t(formik.errors.username)}
                   </Form.Control.Feedback>
-                </FloatingLabel>  
+                </FloatingLabel>
 
-                <FloatingLabel controlId="floatingPassword"  label={t('Password')}>
-                  <Form.Control className={style.input}
-                    name="password" 
+                <FloatingLabel controlId="floatingPassword" label={t('Password')}>
+                  <Form.Control
+                    className={style.input}
+                    name="password"
                     autoComplete="current-password"
                     placeholder={t('Password')}
                     type="password"
@@ -109,20 +111,19 @@ export const Login = () => {
                     {t(formik.errors.password)}
                   </Form.Control.Feedback>
                 </FloatingLabel>
-                  {err && <div onClick={() => setErr('')} className={style.errLog}>{err}</div>}
-                  {/* <button className={style.formBtn} type="submit">{t('Enter')}</button> */}
-                  <Button type="submit" variant="outline-primary">{t('Enter')}</Button>
+                {err && <div className={style.errLog}>{err}</div>}
+                {/* <button className={style.formBtn} type="submit">{t('Enter')}</button> */}
+                <Button type="submit" variant="outline-primary">{t('Enter')}</Button>
               </Stack>
             </Form>
-              
+
           </div>
           <div className={style.footer}>
-            <span style={{marginRight: "3px"}}>{t('Don\'t have an account?')}</span>
-            <a href='/signup' style={{color: "#0d6efd"}}>{t('Registration')}</a>
+            <span style={{ marginRight: '3px' }}>{t('Don\'t have an account?')}</span>
+            <a href="/signup" style={{ color: '#0d6efd' }}>{t('Registration')}</a>
           </div>
         </div>
       </div>
     </div>
   );
-};
-
+}

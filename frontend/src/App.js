@@ -5,13 +5,11 @@ import { Error } from './pages/errorPage/ErrorPage';
 import { Login } from './pages/loginPage/LoginPage';
 import { Registration } from './pages/registrationPage/RegistrationPage';
 
-export const App = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Registration />} />
-      <Route path="*" element={<Error />} />
-    </Routes>
-  );
-}
+export const App = () => (
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/login" element={<Login />} />
+    <Route path="/signup" element={<Registration />} />
+    <Route path="*" element={<Error />} />
+  </Routes>
+);

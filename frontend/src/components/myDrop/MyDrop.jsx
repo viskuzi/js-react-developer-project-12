@@ -1,14 +1,15 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React, { useState } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
+import { useTranslation } from 'react-i18next';
 // import style from './MyDrop.module.scss';
 import Remove from '../../modals/removeChannel/RemoveChannel';
-import Rename from "../../modals/renameChannel/RenameChannel";
-import { useTranslation } from 'react-i18next';
-import Dropdown from 'react-bootstrap/Dropdown';
+import Rename from '../../modals/renameChannel/RenameChannel';
 
-export const MyDrop = ({ isActive, isRemovable, id }) => {
+export function MyDrop({ isActive, isRemovable, id }) {
   // const [isDropOpen, setDropOpen] = useState(false);
-  const [ isRemoveOpen, setRemoveOpen ] = useState(false);
-  const [ isRenameOpen, setRenameOpen ] = useState(false);
+  const [isRemoveOpen, setRemoveOpen] = useState(false);
+  const [isRenameOpen, setRenameOpen] = useState(false);
   const { t } = useTranslation();
 
   // const toggling = () => {
@@ -37,7 +38,7 @@ export const MyDrop = ({ isActive, isRemovable, id }) => {
           <Dropdown.Toggle variant={isActive && 'secondary'} id="dropdown-basic">
             <span className="visually-hidden">{t('Channel management')}</span>
           </Dropdown.Toggle>
-  
+
           <Dropdown.Menu>
             <Dropdown.Item onClick={handleClickRemove}>{t('Remove')}</Dropdown.Item>
             <Dropdown.Item onClick={handleClickRename}>{t('Rename')}</Dropdown.Item>
@@ -57,9 +58,9 @@ export const MyDrop = ({ isActive, isRemovable, id }) => {
         //       </div>
         //     </div>
         //   }
-          
-        // </div>
+
+      // </div>
       )}
     </>
   );
-};
+}

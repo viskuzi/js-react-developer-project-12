@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   channels: [],
   currentChannelId: null,
-}
+};
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -15,30 +15,29 @@ const channelsSlice = createSlice({
     setCurrentChannelId: (state, { payload }) => {
       state.currentChannelId = payload;
     },
-    setStateClean: (state) => {
-      return state = {...initialState};
-    },
+    // setStateClean: (state) => state = { ...initialState },
     addChannel: (state, { payload }) => {
-      state.channels.push(payload)
+      state.channels.push(payload);
     },
     removeChannel: (state, { payload }) => {
       state.channels = state.channels.filter((channel) => channel.id !== payload);
     },
-    renameChannel: (state, { payload } ) => {
+    renameChannel: (state, { payload }) => {
       state.channels.map((channel) => {
         if (channel.id === payload.id) {
-          return Object.assign(channel, payload)
+          return Object.assign(channel, payload);
         }
+        return channel;
       });
-    }
+    },
   },
 });
 
-export const { 
+export const {
   setChannels,
   setMessages,
   setCurrentChannelId,
-  setStateClean,
+  // setStateClean,
   removeChannel,
   addChannel,
   renameChannel,

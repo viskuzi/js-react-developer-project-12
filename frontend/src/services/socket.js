@@ -1,8 +1,10 @@
-import { io } from 'socket.io-client';
-import { setCurrentChannelId, addChannel, renameChannel, removeChannel } from '../slices/channelsSlice';
-import { addMessage } from '../slices/messagesSlice';
-import { toast as toast2}  from 'react-toastify';
-import toast from 'react-hot-toast';
+// import { io } from 'socket.io-client';
+// import { toast as toast2 } from 'react-toastify';
+// import toast from 'react-hot-toast';
+// import {
+//   setCurrentChannelId, addChannel, renameChannel, removeChannel,
+// } from '../slices/channelsSlice';
+// import { addMessage } from '../slices/messagesSlice';
 
 // const socket = io();
 
