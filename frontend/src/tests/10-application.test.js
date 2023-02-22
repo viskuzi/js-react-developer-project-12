@@ -96,7 +96,7 @@ test.describe('chat', () => {
     expect(await page.$('text=message for random')).not.toBeNull();
   });
 
-  test.only('adding channel', async ({ page }) => {
+  test('adding channel', async ({ page }) => {
     await page.locator('text=+').first().click();
     await page.locator('text=Имя канала').first().type('test channel');
     await page.keyboard.press('Enter');

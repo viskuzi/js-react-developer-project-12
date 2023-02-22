@@ -61,7 +61,7 @@ const Rename = ({ id, isShownRename, setShownRename }) => {
 
         <Modal.Body>
           <Form.Group>
-            <Form.Label></Form.Label>
+            <Form.Label htmlFor='text' visuallyHidden>{t('Channel name')}</Form.Label>
               <Form.Control
                 autoFocus
                 id="text"
