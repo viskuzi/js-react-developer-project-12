@@ -65,6 +65,7 @@
             flex-direction: column;
             background-color: $light;
             padding-top: 3rem;
+            overflow: auto;
             @media screen and (max-width: 700px) {
                 min-width: 135px;
             }

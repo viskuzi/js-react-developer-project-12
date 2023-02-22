@@ -118,7 +118,7 @@ test.describe('chat', () => {
     // await expect(await page.$('text="# new test channel"')).not.toBeNull();
   });
 
-  test.only('remove channel', async ({ page }) => {
+  test('remove channel', async ({ page }) => {
     await page.locator('text=Управление каналом').first().click();
     await page.locator('text=Удалить').first().click();
 

@@ -2,7 +2,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import { ru } from './locales/ru/ru';
-import App from './App';
+import { App } from './App';
 import {  BrowserRouter } from 'react-router-dom';
 import { myStore } from './slices/store.js';
 import { Provider } from 'react-redux';

@@ -5,7 +5,7 @@ import { Error } from './pages/errorPage/ErrorPage';
 import { Login } from './pages/loginPage/LoginPage';
 import { Registration } from './pages/registrationPage/RegistrationPage';
 
-function App() {
+export const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -15,5 +15,3 @@ function App() {
     </Routes>
   );
 }
-
-export default App;

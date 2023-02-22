@@ -1,35 +1,34 @@
-import React from "react";
-import { useState } from "react";
-import style from './MyDrop.module.scss';
+import React, { useState } from 'react';
+// import style from './MyDrop.module.scss';
 import Remove from '../../modals/removeChannel/RemoveChannel';
 import Rename from "../../modals/renameChannel/RenameChannel";
 import { useTranslation } from 'react-i18next';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 export const MyDrop = ({ isActive, isRemovable, id }) => {
-  const [isDropOpen, setDropOpen] = useState(false);
+  // const [isDropOpen, setDropOpen] = useState(false);
   const [ isRemoveOpen, setRemoveOpen ] = useState(false);
   const [ isRenameOpen, setRenameOpen ] = useState(false);
   const { t } = useTranslation();
 
-  const toggling = () => {
-    setDropOpen(!isDropOpen);
-  };
+  // const toggling = () => {
+  //   setDropOpen(!isDropOpen);
+  // };
 
   const handleClickRemove = () => {
     setRemoveOpen(true);
-    setDropOpen(false);
+    // setDropOpen(false);
   };
 
   const handleClickRename = () => {
     setRenameOpen(true);
-    setDropOpen(false);
+    // setDropOpen(false);
   };
 
-  const handleFadeClick = () => {
-    setRemoveOpen(false);
-    setDropOpen(false);
-  };
+  // const handleFadeClick = () => {
+  //   setRemoveOpen(false);
+  //   setDropOpen(false);
+  // };
 
   return (
     <>
