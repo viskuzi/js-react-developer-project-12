@@ -69,8 +69,9 @@ const Add = ({ isShown, setShown }) => {
 
         <Modal.Body>
           <Form.Group className="mb-0">
-            <Form.Label visuallyHidden>{t('Channel name')}</Form.Label>
+            <Form.Label htmlFor='text' visuallyHidden>{t('Channel name')}</Form.Label>
             <Form.Control
+              id="text"
               autoFocus
               name="text"
               type="text"
