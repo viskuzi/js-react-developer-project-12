@@ -1,4 +1,4 @@
-export const ru = {
+const ru = {
   translation: {
     messagesCount_one: '{{count}} сообщение',
     messagesCount_few: '{{count}} сообщения',
@@ -45,3 +45,5 @@ export const ru = {
     'Channel renamed!': 'Канал переименован',
   },
 };
+
+export default ru;

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Remove from '../../modals/removeChannel/RemoveChannel';
 import Rename from '../../modals/renameChannel/RenameChannel';
 
-export function MyDrop({ isActive, isRemovable, id }) {
+const MyDrop = ({ isActive, isRemovable, id }) => {
   // const [isDropOpen, setDropOpen] = useState(false);
   const [isRemoveOpen, setRemoveOpen] = useState(false);
   const [isRenameOpen, setRenameOpen] = useState(false);
@@ -46,21 +46,9 @@ export function MyDrop({ isActive, isRemovable, id }) {
           <Rename id={id} isShownRename={isRenameOpen} setShownRename={setRenameOpen} />
           <Remove id={id} isShownRemove={isRemoveOpen} setShownRemove={setRemoveOpen} />
         </Dropdown>
-        // <div className={style.arrowBlock}>
-        //   <span className="visually-hidden">{t('Channel management')}</span>
-        //   <div onClick={toggling} className={isActive ? style.arrowDownActive : style.arrowDown}></div>
-        //   {isDropOpen &&
-        //     <div>
-        //       <div onClick={handleFadeClick} className={style.fade}></div>
-        //       <div className={style.dropBlock}>
-        //         <span onClick={handleClickRemove} className={style.dropBlockItem}>{t('Remove')}</span>
-        //         <span onClick={handleClickRename} className={style.dropBlockItem}>{t('Rename')}</span>
-        //       </div>
-        //     </div>
-        //   }
-
-      // </div>
       )}
     </>
   );
-}
+};
+
+export default MyDrop;

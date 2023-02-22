@@ -1,15 +1,9 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import React, { useCallback, useState, useEffect, useRef, useContext } from 'react';
 import { object, string } from 'yup';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { routes } from '../../routes.js'
-import { useContext } from 'react';
-import { MyContext } from '../../contexts/context.jsx';
 import { useNavigate } from 'react-router-dom';
-import Image from 'react-bootstrap/Image'
-import style from './RegistrationPage.module.scss';
-import regImg from '../../assets/images/reg_image.jpg';
-import { Nav } from '../../components/nav/Nav.jsx';
+import Image from 'react-bootstrap/Image';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
@@ -17,12 +11,17 @@ import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
+import routes from '../../routes.js';
+import { MyContext } from '../../contexts/context.jsx';
+import style from './RegistrationPage.module.scss';
+import Nav from '../../components/nav/Nav.jsx';
+import regImg from '../../assets/images/reg_image.jpg';
 
-export const Registration = () => {
+const Registration = () => {
   const { logIn } = useContext(MyContext);
   const navigate = useNavigate();
   const [err, setErr] = useState(false);
-  const [isDisabled, setDisabled] = useState(true);
+  // const [isDisabled, setDisabled] = useState(true);
   const { t } = useTranslation();
 
   const inputRef = useRef();
@@ -42,14 +41,13 @@ export const Registration = () => {
       .required(t('Required field'))
       .oneOf([Yup.ref('password'), null], t('Passwords must match'))
   });
-  
+
   const onFormSubmit = useCallback(async (values) => {
     try {
       setErr(false);
       const response = await axios.post(routes.signupPath(), values);
       const user = response.data;
       if (user) {
-        
         window.localStorage.setItem('user', JSON.stringify(user));
         logIn();
         navigate('/');
@@ -61,16 +59,16 @@ export const Registration = () => {
         toast(t('Connection error'));
       }
     }
-  },[logIn, navigate, t]);
+  }, [logIn, navigate, t]);
 
   const formik = useFormik({
     initialValues: { username: '', password: '', passwordConfirmation: '' },
     onSubmit: (values) => {
-      onFormSubmit(values)
+      onFormSubmit(values);
     },
     validationSchema,
   });
-  
+
   return (
     <div className={style.regBlock}>
       <Nav />
@@ -84,9 +82,10 @@ export const Registration = () => {
               <h1>{t('Registration')}</h1>
               <Stack gap={3}>
                 <FloatingLabel controlId="floatingUsername" label={t('Username')}>
-                  <Form.Control className={style.input} 
+                  <Form.Control
+                    className={style.input}
                     name="username"
-                    type='text'
+                    type="text"
                     placeholder={t('Username')}
                     required
                     autoComplete="current-username"
@@ -101,9 +100,10 @@ export const Registration = () => {
                   </Form.Control.Feedback>
                 </FloatingLabel>
 
-                <FloatingLabel controlId="floatingPassword"  label={t('Password')}>
-                  <Form.Control className={style.input}
-                    name="password" 
+                <FloatingLabel controlId="floatingPassword" label={t('Password')}>
+                  <Form.Control
+                    className={style.input}
+                    name="password"
                     autoComplete="current-password"
                     placeholder={t('Password')}
                     type="password"
@@ -113,13 +113,14 @@ export const Registration = () => {
                     value={formik.values.password}
                     isInvalid={formik.touched.password && formik.errors.password}
                   />
-                    <Form.Control.Feedback className={style.errorMessage} type="invalid" tooltip>
-                      {t(formik.errors.password)}
-                    </Form.Control.Feedback>
+                  <Form.Control.Feedback className={style.errorMessage} type="invalid" tooltip>
+                    {t(formik.errors.password)}
+                  </Form.Control.Feedback>
                 </FloatingLabel>
 
                 <FloatingLabel controlId="floatingPasswordConfirmation" label={t('Confirm password')}>
-                  <Form.Control className={style.input} 
+                  <Form.Control
+                    className={style.input}
                     type="password"
                     name="passwordConfirmation"
                     autoComplete="current-passwordConfirmation"
@@ -128,13 +129,14 @@ export const Registration = () => {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.passwordConfirmation}
-                    isInvalid={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}
+                    isInvalid={formik.touched.passwordConfirmation
+                      && formik.errors.passwordConfirmation}
                   />
-                    <Form.Control.Feedback className={style.errorMessage} type="invalid" tooltip>
-                      {t(formik.errors.passwordConfirmation)}
-                    </Form.Control.Feedback>
+                  <Form.Control.Feedback className={style.errorMessage} type="invalid" tooltip>
+                    {t(formik.errors.passwordConfirmation)}
+                  </Form.Control.Feedback>
                 </FloatingLabel>
-                {err && <div onClick={() => setErr(false)} className={style.errReg}>{err}</div>}
+                {err && <div className={style.errReg}>{err}</div>}
                 <Button type="submit" variant="outline-primary">{t('Register')}</Button>
               </Stack>
             </Form>
@@ -145,3 +147,4 @@ export const Registration = () => {
   );
 };
 
+export default Registration;

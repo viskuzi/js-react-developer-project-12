@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import style from './Nav.module.scss';
 
-export const Nav = ({ button }) => {
+const Nav = ({ button }) => {
   const { t } = useTranslation();
   return (
     <nav className={style.nav}>
@@ -13,3 +13,5 @@ export const Nav = ({ button }) => {
     </nav>
   );
 };
+
+export default Nav;

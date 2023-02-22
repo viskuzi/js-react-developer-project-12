@@ -14,11 +14,11 @@ import { setCurrentChannelId, addChannel, renameChannel, removeChannel } from '.
 import { addMessage } from './slices/messagesSlice';
 // import toast from 'react-hot-toast';
 import { MyContext } from './contexts/context.jsx';
-import { myStore } from './slices/store.js';
-import { ru } from './locales/ru/ru';
-import { App } from './App';
+import myStore from './slices/store.js';
+import ru from './locales/ru/ru';
+import App from './App';
 
-export const runApp = async () => {
+const runApp = async () => {
   const i18n = i18next.createInstance();
   await i18n
     .use(initReactI18next)
@@ -111,3 +111,5 @@ export const runApp = async () => {
     </I18nextProvider>
   );
 };
+
+export default runApp;

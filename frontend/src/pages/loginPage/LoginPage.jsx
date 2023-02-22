@@ -13,13 +13,13 @@ import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
-import { Nav } from '../../components/nav/Nav.jsx';
+import Nav from '../../components/nav/Nav.jsx';
 import loginImg from '../../assets/images/login_image.jpg';
 import { MyContext } from '../../contexts/context.jsx';
-import { routes } from '../../routes.js';
+import routes from '../../routes.js';
 import style from './LoginPage.module.scss';
 
-export function Login() {
+const Login = () => {
   const { logIn } = useContext(MyContext);
   const navigate = useNavigate();
   const [err, setErr] = useState(false);
@@ -71,7 +71,6 @@ export function Login() {
             <div className={style.imgContainer}>
               <Image src={loginImg} className={style.loginImg} />
             </div>
-
             <Form onSubmit={formik.handleSubmit} className={style.form}>
               <h1>{t('Enter')}</h1>
               <Stack gap={3}>
@@ -116,7 +115,6 @@ export function Login() {
                 <Button type="submit" variant="outline-primary">{t('Enter')}</Button>
               </Stack>
             </Form>
-
           </div>
           <div className={style.footer}>
             <span style={{ marginRight: '3px' }}>{t('Don\'t have an account?')}</span>
@@ -126,4 +124,6 @@ export function Login() {
       </div>
     </div>
   );
-}
+};
+
+export default Login;

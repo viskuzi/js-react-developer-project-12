@@ -12,17 +12,17 @@ import filter from 'leo-profanity';
 // import Scroll from 'react-scroll';
 import { animateScroll } from 'react-scroll';
 import { ToastContainer } from 'react-toastify';
-import { Nav } from '../../components/nav/Nav';
-import { MyDrop } from '../../components/myDrop/MyDrop';
+import Nav from '../../components/nav/Nav';
+import MyDrop from '../../components/myDrop/MyDrop';
 import Add from '../../modals/addChannel/AddChannel';
 import { MyContext } from '../../contexts/context';
 import style from './HomePage.module.scss';
 import { setMessages } from '../../slices/messagesSlice.js';
 import { setChannels, setCurrentChannelId } from '../../slices/channelsSlice.js';
-import { routes } from '../../routes';
+import routes from '../../routes';
 import 'react-toastify/dist/ReactToastify.css';
 
-export function Home() {
+const Home = () => {
   const { t } = useTranslation();
   const [shownAdd, setShownAdd] = useState(false);
   const dispatch = useDispatch();
@@ -170,7 +170,9 @@ export function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;
 
 // const onChannelCreated = useCallback((payload) => {
 //   socket.emit('newChannel', payload, (response) => {
